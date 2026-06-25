@@ -1,16 +1,9 @@
-import axios from "@/axios/axios";
-import { Button } from "@/components/ui/button";
+import { RouterProvider } from "react-router-dom";
+
+import { router } from "@/routes/router";
 
 function App() {
-  async function handleClick() {
-    const response = await axios.get("/health");
-    console.log(response.data);
-  }
-  return (
-    <>
-      <Button onClick={handleClick}>Fetch Tasks</Button>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
