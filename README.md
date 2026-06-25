@@ -1,220 +1,153 @@
 # Task Management
 
-A full-stack task management application built with React, Express.js, and MongoDB. The application allows users to securely manage their personal tasks through a simple and responsive interface.
+A full-stack task management application built with React, Express.js, and MongoDB.
 
 ## Features
 
-### Authentication
-
-- User login
-- User logout
-- JWT authentication
-- Protected routes
-
-### Dashboard
-
-- Total tasks count
-- Completed tasks count
-- Pending tasks count
-
-### Task Management
-
-- Create a task
-- View all tasks
-- Update a task
-- Delete a task
-- Mark a task as completed
-
-### Profile
-
-- View user information
+- JWT authentication (login, logout, protected routes)
+- Dashboard with task stats (total, completed, pending)
+- Full task CRUD (create, view, update, delete, mark completed)
+- User profile
 
 ## Tech Stack
 
-### Frontend
-
-- React
-- Vite
-- TypeScript
-- Tailwind CSS
-- shadcn/ui
-- React Router DOM
-
-### Backend
-
-- Express.js
-- Node.js
-- JWT Authentication
-
-### Database
-
-- MongoDB
-- Mongoose
-
-### Testing
-
-- Jest
-- React Testing Library
-
-````
+| Layer    | Technologies                                      |
+|----------|---------------------------------------------------|
+| Frontend | React, Vite, TypeScript, Tailwind CSS, shadcn/ui, React Router DOM |
+| Backend  | Node.js, Express.js, JWT, bcryptjs                |
+| Database | MongoDB, Mongoose                                 |
+| Testing  | Jest, Supertest, mongodb-memory-server            |
+| Infra    | Docker / Podman, Nginx, pnpm                      |
 
 ## Application Screens
 
-1. Login
-2. Dashboard
-3. Tasks
-4. Profile
+Login · Dashboard · Tasks · Profile
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 20 or later
-- MongoDB
-- npm
+- Node.js 20+, pnpm, MongoDB (or Docker / Podman)
 
-## Installation
+---
 
-### Clone the Repository
+## Docker / Podman Compose
+
+The fastest way to run the full stack.
 
 ```bash
+# clone
 git clone <repository-url>
 cd task-management
-````
 
-## Backend Setup
-
-Navigate to the backend directory:
-
-```bash
-cd backend
-npm install
+# copy and edit backend env
+cp backend/.env.example backend/.env
 ```
 
-Create a `.env` file:
+Edit `backend/.env`:
 
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/task-management
+MONGODB_URI=mongodb://mongodb:27017/task-management
 JWT_SECRET=your-secret-key
 JWT_EXPIRES_IN=7d
 ```
 
-Start the backend server:
+Then start all services:
 
 ```bash
-npm run dev
+# Docker
+docker compose -f docker-compose.dev.yml up --build
+
+# Podman
+podman compose -f docker-compose.dev.yml up --build
 ```
 
-The backend server will run on:
+| Service  | URL                   |
+|----------|-----------------------|
+| Frontend | http://localhost:3000 |
+| Backend  | http://localhost:5000 |
+| MongoDB  | localhost:27017       |
 
-```text
-http://localhost:5000
-```
-
-## Frontend Setup
-
-Navigate to the frontend directory:
+Stop and remove containers:
 
 ```bash
-cd frontend
-npm install
+docker compose -f docker-compose.dev.yml down
+
+# include volumes (wipes DB data)
+docker compose -f docker-compose.dev.yml down -v
 ```
 
-Create a `.env` file:
+---
 
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
-Start the frontend application:
-
-```bash
-npm run dev
-```
-
-The frontend application will run on:
-
-```text
-http://localhost:5173
-```
-
-## API Endpoints
-
-### Authentication
-
-```http
-POST /api/auth/login
-POST /api/auth/register
-GET /api/auth/profile
-```
-
-### Tasks
-
-```http
-GET /api/tasks
-POST /api/tasks
-GET /api/tasks/:id
-PUT /api/tasks/:id
-DELETE /api/tasks/:id
-```
-
-## Database Schema
-
-### User
-
-```javascript
-{
-  name: String,
-  email: String,
-  password: String
-}
-```
-
-### Task
-
-```javascript
-{
-  title: String,
-  description: String,
-  status: String,
-  userId: ObjectId,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-## Running Tests
+## Manual Setup
 
 ### Backend
 
 ```bash
 cd backend
-npm run test
+pnpm install
+cp .env.example .env   # fill in values
+pnpm dev               # http://localhost:5000
 ```
 
 ### Frontend
 
 ```bash
 cd frontend
-npm run test
+pnpm install
+# create .env with: VITE_API_URL=http://localhost:5000/api
+pnpm dev               # http://localhost:5173
 ```
+
+---
+
+## API Endpoints
+
+### Auth
+```
+POST   /api/auth/register
+POST   /api/auth/login
+POST   /api/auth/logout
+GET    /api/auth/profile
+```
+
+### Tasks
+```
+GET    /api/tasks
+POST   /api/tasks
+GET    /api/tasks/:id
+PUT    /api/tasks/:id
+DELETE /api/tasks/:id
+```
+
+---
+
+## Database Schema
+
+```js
+User  { firstName, middleName?, lastName, email, password }
+Task  { title, description, status, userId, createdAt, updatedAt }
+```
+
+---
+
+## Running Tests
+
+```bash
+cd backend && pnpm test
+cd frontend && pnpm test
+```
+
+---
 
 ## Assumptions
 
-- Users can only access their own tasks.
-- Authentication is required to access protected resources.
-- Each task belongs to a single user.
-- Passwords are securely hashed before storage.
-
-## Future Improvements
-
-- Task categories
-- Task priorities
-- Due dates
-- Dark mode
-- Email notifications
-- Drag-and-drop task board
+- Users can only access their own tasks
+- Authentication required for all protected resources
+- Passwords are hashed with bcrypt
 
 ## Author
 
