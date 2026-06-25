@@ -4,9 +4,10 @@ A full-stack task management application built with React, Express.js, and Mongo
 
 ## Features
 
-- JWT authentication (login, logout, protected routes)
+- JWT authentication (register, login, logout, protected routes)
 - Dashboard with task stats (total, completed, pending)
 - Full task CRUD (create, view, update, delete, mark completed)
+- Quote of the Day via public API
 - User profile
 
 ## Tech Stack
@@ -21,7 +22,7 @@ A full-stack task management application built with React, Express.js, and Mongo
 
 ## Application Screens
 
-Login · Dashboard · Tasks · Profile
+Login · Register · Dashboard · Tasks · Profile
 
 ---
 
