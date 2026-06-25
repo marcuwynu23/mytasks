@@ -29,9 +29,9 @@ export function getTokenCookieOptions() {
 
 export const COOKIE = COOKIE_NAME;
 
-export async function registerUser(name: string, email: string, password: string) {
+export async function registerUser(firstName: string, middleName: string | undefined, lastName: string, email: string, password: string) {
   if (await User.findOne({ email })) return null;
-  return User.create({ name: name ?? "", email, password: await bcrypt.hash(password, 10) });
+  return User.create({ firstName, middleName: middleName ?? "", lastName, email, password: await bcrypt.hash(password, 10) });
 }
 
 export async function loginUser(email: string, password: string) {
