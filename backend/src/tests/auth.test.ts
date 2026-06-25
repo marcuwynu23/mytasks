@@ -7,7 +7,7 @@ afterAll(async () => { await teardownDB(); });
 afterEach(async () => { await clearDB(); });
 
 const BASE = "/api/auth";
-const credentials = { name: "Test User", email: "test@example.com", password: "password123" };
+const credentials = { firstName: "Test", middleName: "M", lastName: "User", email: "test@example.com", password: "password123" };
 
 describe("POST /api/auth/register", () => {
   it("registers a new user and sets cookie", async () => {
@@ -17,14 +17,19 @@ describe("POST /api/auth/register", () => {
     expect(res.headers["set-cookie"]).toBeDefined();
   });
 
+  it("registers without middleName (optional)", async () => {
+    const res = await request(app).post(`${BASE}/register`).send({ firstName: "Jane", lastName: "Doe", email: "jane@example.com", password: "pass1234" });
+    expect(res.status).toBe(201);
+  });
+
   it("returns 409 for duplicate email", async () => {
     await request(app).post(`${BASE}/register`).send(credentials);
     const res = await request(app).post(`${BASE}/register`).send(credentials);
     expect(res.status).toBe(409);
   });
 
-  it("returns 400 when email or password missing", async () => {
-    const res = await request(app).post(`${BASE}/register`).send({ email: "x@x.com" });
+  it("returns 400 when required fields missing", async () => {
+    const res = await request(app).post(`${BASE}/register`).send({ email: "x@x.com", password: "pass" });
     expect(res.status).toBe(400);
   });
 });
@@ -66,6 +71,8 @@ describe("GET /api/auth/profile", () => {
     const res = await agent.get(`${BASE}/profile`);
     expect(res.status).toBe(200);
     expect(res.body.email).toBe(credentials.email);
+    expect(res.body.firstName).toBe(credentials.firstName);
+    expect(res.body.lastName).toBe(credentials.lastName);
     expect(res.body.password).toBeUndefined();
   });
 
