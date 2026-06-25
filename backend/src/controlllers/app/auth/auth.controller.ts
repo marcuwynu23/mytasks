@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { User } from "../../../models/user.model";
-import config from "../../../config/config";
-import { AuthRequest } from "../../../middlewares/auth.middleware";
+import { User } from "@/models/user.model";
+import config from "@/config/config";
+import { AuthRequest } from "@/middlewares/auth.middleware";
 
 const COOKIE_NAME = "token";
 
