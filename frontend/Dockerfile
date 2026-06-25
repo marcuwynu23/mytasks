@@ -7,16 +7,23 @@ FROM node:${NODE_VERSION} AS base
 WORKDIR /app
 
 RUN apk upgrade --no-cache \
-    && corepack enable
+ && corepack enable \
+ && corepack prepare pnpm@9.15.0 --activate
+
 
 # Build stage
 FROM base AS builder
 
-COPY package.json pnpm-lock.yaml ./
+
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
+COPY package.json pnpm-lock.yaml .npmrc ./
 
 RUN pnpm install --frozen-lockfile
 
 COPY . .
+
 
 RUN pnpm run build
 
