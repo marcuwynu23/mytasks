@@ -1,17 +1,15 @@
 import cors, { CorsOptions } from "cors";
 import { Application } from "express";
+import config from "../config/config";
 
 export function useCorsMiddleware(app: Application): void {
-  const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map((origin) => origin.trim()) ?? [];
-
   const corsOptions: CorsOptions = {
-    origin: (origin: any, callback: any) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-        return;
+    origin: (origin, callback) => {
+      if (!origin || config.allowedOrigins.includes(origin)) {
+        return callback(null, true);
       }
 
-      callback(new Error("Not allowed by CORS"));
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   };
