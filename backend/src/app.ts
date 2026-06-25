@@ -9,7 +9,7 @@ const app: Application = express();
 
 // middlewares
 useCorsMiddleware(app);
-
+// router configuration
 app.use(router);
 
 export default app;
