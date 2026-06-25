@@ -4,10 +4,11 @@ import ProtectedRoute from "@/auth/ProtectedRoute";
 import AppLayout from "@/layouts/app/AppLayout";
 import CommonLayout from "@/layouts/common/CommonLayout";
 
-import LoginPage from "@/pages/auth/login/LoginPage";
 import DashboardPage from "@/pages/app/dashboard/DashboardPage";
-import TasksPage from "@/pages/app/tasks/TasksPage";
 import ProfilePage from "@/pages/app/profile/ProfilePage";
+import TasksPage from "@/pages/app/tasks/TasksPage";
+import LoginPage from "@/pages/auth/login/LoginPage";
+import RegisterPage from "@/pages/auth/register/RegisterPage";
 import NotFoundPage from "@/pages/errors/NotFoundPage";
 
 export const router = createBrowserRouter([
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
         ],
       },
       { path: "/login", element: <LoginPage /> },
+      { path: "/register", element: <RegisterPage /> },
       { path: "*", element: <NotFoundPage /> },
     ],
   },
