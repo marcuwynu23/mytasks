@@ -12,7 +12,9 @@ export default function ProfilePage() {
           <CardTitle>User Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
-          {user?.name && <p><span className="font-medium">Name:</span> {user.name}</p>}
+          {user?.firstName && <p><span className="font-medium">First Name:</span> {user.firstName}</p>}
+          {user?.middleName && <p><span className="font-medium">Middle Name:</span> {user.middleName}</p>}
+          {user?.lastName && <p><span className="font-medium">Last Name:</span> {user.lastName}</p>}
           <p><span className="font-medium">Email:</span> {user?.email}</p>
         </CardContent>
       </Card>
