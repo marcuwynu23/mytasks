@@ -3,9 +3,9 @@ import express, { Application } from "express";
 dotenv.config();
 
 import cookieParser from "cookie-parser";
-import { connectDatabase } from "./database/database";
-import { useCorsMiddleware } from "./middlewares/cors";
-import router from "./routes/index";
+import { connectDatabase } from "@/database/database";
+import { useCorsMiddleware } from "@/middlewares/cors.middleware";
+import router from "@/routes/index";
 
 connectDatabase();
 
