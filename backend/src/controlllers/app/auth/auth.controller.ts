@@ -8,6 +8,16 @@ export async function register(req: Request, res: Response): Promise<void> {
     res.status(400).json({ message: "firstName, lastName, email and password are required" });
     return;
   }
+  const passwordErrors: string[] = [];
+  if (password.length < 8) passwordErrors.push("at least 8 characters");
+  if (!/[A-Z]/.test(password)) passwordErrors.push("an uppercase letter");
+  if (!/[a-z]/.test(password)) passwordErrors.push("a lowercase letter");
+  if (!/[0-9]/.test(password)) passwordErrors.push("a number");
+  if (!/[^A-Za-z0-9]/.test(password)) passwordErrors.push("a symbol");
+  if (passwordErrors.length) {
+    res.status(400).json({ message: `Password must contain ${passwordErrors.join(", ")}` });
+    return;
+  }
   const user = await registerUser(firstName, middleName, lastName, email, password);
   if (!user) { res.status(409).json({ message: "Email already in use" }); return; }
   res.cookie(COOKIE, signToken(String(user._id)), getTokenCookieOptions());
