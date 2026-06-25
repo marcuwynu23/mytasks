@@ -2,6 +2,19 @@ const esbuild = require("esbuild");
 const fs = require("node:fs").promises;
 const path = require("node:path");
 
+const aliasPlugin = {
+  name: "alias",
+  setup(build) {
+    build.onResolve({ filter: /^@\// }, async (args) => {
+      const resolved = await build.resolve(
+        path.resolve(__dirname, "src", args.path.slice(2)),
+        { resolveDir: __dirname, kind: args.kind }
+      );
+      return resolved;
+    });
+  },
+};
+
 const isWatch = process.argv.includes("--watch");
 
 const buildOptions = {
@@ -12,7 +25,7 @@ const buildOptions = {
   target: "node18",
   format: "cjs",
   sourcemap: false,
-  external: ["pino", "pino-worker", "thread-stream"],
+  plugins: [aliasPlugin],
 };
 
 async function copyEnvExample() {
