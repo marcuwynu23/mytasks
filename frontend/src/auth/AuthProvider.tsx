@@ -4,14 +4,17 @@ import { useAuthStore } from "@/store/authStore";
 import api from "@/axios/axios";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { user, isAuthenticated, setUser, logout } = useAuthStore();
+  const { user, isAuthenticated, isLoading, setUser, logout, setLoading } = useAuthStore();
 
   useEffect(() => {
-    api.get("/auth/profile").then((r) => setUser(r.data)).catch(() => logout());
+    api.get("/auth/profile")
+      .then((r) => setUser(r.data))
+      .catch(() => logout())
+      .finally(() => setLoading(false));
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, setUser, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, isLoading, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
