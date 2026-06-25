@@ -1,4 +1,5 @@
 import axios from "@/axios/axios";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,6 +7,14 @@ import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+const PASSWORD_RULES = [
+  { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
+  { label: "Uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
+  { label: "Lowercase letter", test: (p: string) => /[a-z]/.test(p) },
+  { label: "Number", test: (p: string) => /[0-9]/.test(p) },
+  { label: "Symbol (!@#$…)", test: (p: string) => /[^A-Za-z0-9]/.test(p) },
+];
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -61,11 +70,26 @@ export default function RegisterPage() {
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" value={form.password} onChange={set("password")} required autoComplete="new-password" />
+              {form.password && (
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {PASSWORD_RULES.map(({ label, test }) => (
+                    <Badge key={label} variant={test(form.password) ? "default" : "outline"} className="text-xs">
+                      {test(form.password) ? "✓" : "✗"} {label}
+                    </Badge>
+                  ))}
+                </div>
+              )}
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Creating account…" : "Register"}
             </Button>
+            <p className="text-center text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <button type="button" onClick={() => navigate("/login")} className="text-primary underline-offset-4 hover:underline">
+                Sign in
+              </button>
+            </p>
           </form>
         </CardContent>
       </Card>
