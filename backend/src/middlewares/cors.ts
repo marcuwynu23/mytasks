@@ -1,6 +1,6 @@
 import cors, { CorsOptions } from "cors";
 import { Application } from "express";
-import config from "../config/config";
+import config from "@/config/config";
 
 export function useCorsMiddleware(app: Application): void {
   const corsOptions: CorsOptions = {
