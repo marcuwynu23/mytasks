@@ -12,13 +12,13 @@ A full-stack task management application built with React, Express.js, and Mongo
 
 ## Tech Stack
 
-| Layer    | Technologies                                      |
-|----------|---------------------------------------------------|
+| Layer    | Technologies                                                       |
+| -------- | ------------------------------------------------------------------ |
 | Frontend | React, Vite, TypeScript, Tailwind CSS, shadcn/ui, React Router DOM |
-| Backend  | Node.js, Express.js, JWT, bcryptjs                |
-| Database | MongoDB, Mongoose                                 |
-| Testing  | Jest, Supertest, mongodb-memory-server            |
-| Infra    | Docker / Podman, Nginx, pnpm                      |
+| Backend  | Node.js, Express.js, JWT, bcryptjs                                 |
+| Database | MongoDB, Mongoose                                                  |
+| Testing  | Jest, Supertest, mongodb-memory-server                             |
+| Infra    | Docker / Podman, Nginx, pnpm                                       |
 
 ## Application Screens
 
@@ -38,36 +38,18 @@ Login · Register · Dashboard · Tasks · Profile
 
 The fastest way to run the full stack.
 
-```bash
-# clone
-git clone <repository-url>
-cd task-management
-
-# copy and edit backend env
-cp backend/.env.example backend/.env
-```
-
-Edit `backend/.env`:
-
-```env
-PORT=5000
-MONGODB_URI=mongodb://mongodb:27017/task-management
-JWT_SECRET=your-secret-key
-JWT_EXPIRES_IN=7d
-```
-
 Then start all services:
 
 ```bash
 # Docker
-docker compose -f docker-compose.dev.yml up --build
+docker compose up --build
 
 # Podman
-podman compose -f docker-compose.dev.yml up --build
+podman compose up --build
 ```
 
 | Service  | URL                   |
-|----------|-----------------------|
+| -------- | --------------------- |
 | Frontend | http://localhost:3000 |
 | Backend  | http://localhost:5000 |
 | MongoDB  | localhost:27017       |
@@ -75,10 +57,15 @@ podman compose -f docker-compose.dev.yml up --build
 Stop and remove containers:
 
 ```bash
-docker compose -f docker-compose.dev.yml down
+docker compose down
 
 # include volumes (wipes DB data)
-docker compose -f docker-compose.dev.yml down -v
+docker compose down -v
+
+# Podman
+podman compose down
+# include volumes (wipes DB data)
+docker compose down -v
 ```
 
 ---
@@ -108,6 +95,7 @@ pnpm dev               # http://localhost:5173
 ## API Endpoints
 
 ### Auth
+
 ```
 POST   /api/auth/register
 POST   /api/auth/login
@@ -116,6 +104,7 @@ GET    /api/auth/profile
 ```
 
 ### Tasks
+
 ```
 GET    /api/tasks
 POST   /api/tasks
