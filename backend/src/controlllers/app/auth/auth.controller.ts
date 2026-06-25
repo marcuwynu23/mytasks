@@ -3,9 +3,12 @@ import { AuthRequest } from "@/middlewares/auth.middleware";
 import { registerUser, loginUser, getProfile, signToken, getTokenCookieOptions, COOKIE } from "@/services/app/auth/auth.services";
 
 export async function register(req: Request, res: Response): Promise<void> {
-  const { name, email, password } = req.body;
-  if (!email || !password) { res.status(400).json({ message: "Email and password are required" }); return; }
-  const user = await registerUser(name, email, password);
+  const { firstName, middleName, lastName, email, password } = req.body;
+  if (!firstName || !lastName || !email || !password) {
+    res.status(400).json({ message: "firstName, lastName, email and password are required" });
+    return;
+  }
+  const user = await registerUser(firstName, middleName, lastName, email, password);
   if (!user) { res.status(409).json({ message: "Email already in use" }); return; }
   res.cookie(COOKIE, signToken(String(user._id)), getTokenCookieOptions());
   res.status(201).json({ message: "Registered successfully" });
