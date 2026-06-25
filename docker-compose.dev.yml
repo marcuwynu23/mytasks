@@ -1,14 +1,40 @@
 services:
+  mongodb:
+    image: mongo:8
+    container_name: task-management-mongodb
+    restart: unless-stopped
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
   backend:
     build:
       context: ./backend
     container_name: task-management-backend
     ports:
       - "5000:5000"
-    env_file:
-      - ./backend/.env
+    environment:
+      PORT: "5000"
+      HOST: "0.0.0.0"
+      ALLOWED_ORIGINS: '["http://localhost:5173","http://localhost:3000"]'
+      MONGODB_URI: "mongodb://mongodb:27017/task-management"
+      JWT_SECRET: "your-secret-key"
+      JWT_EXPIRES_IN: "7d"
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
 
   frontend:
     build:
@@ -19,16 +45,8 @@ services:
     ports:
       - "3000:80"
     depends_on:
-      - backend
-
-  mongodb:
-    image: mongo:8
-    container_name: task-management-mongodb
-    restart: unless-stopped
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
+      backend:
+        condition: service_healthy
 
 volumes:
   mongodb_data:
