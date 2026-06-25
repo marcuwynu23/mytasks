@@ -1,0 +1,4 @@
+dev {
+  + cd backend && pnpm dev
+  + cd frontend && pnpm dev
+}
