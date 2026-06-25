@@ -43,3 +43,7 @@ export async function loginUser(email: string, password: string) {
 export async function getProfile(userId: string) {
   return User.findById(userId).select("-password");
 }
+
+export async function updateProfile(userId: string, data: { firstName?: string; middleName?: string; lastName?: string }) {
+  return User.findByIdAndUpdate(userId, { $set: data }, { new: true, runValidators: true }).select("-password");
+}
