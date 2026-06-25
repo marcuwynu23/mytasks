@@ -13,7 +13,7 @@ export async function createTask(title: string, description: string, userId: str
 }
 
 export async function updateTask(id: string, userId: string, data: Record<string, unknown>) {
-  return Task.findOneAndUpdate({ _id: id, userId }, { $set: data }, { new: true, runValidators: true });
+  return Task.findOneAndUpdate({ _id: id, userId }, { $set: data }, { returnDocument: "after", runValidators: true });
 }
 
 export async function deleteTask(id: string, userId: string) {
