@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AuthRequest } from "@/middlewares/auth.middleware";
-import { registerUser, loginUser, getProfile, updateProfile, signToken, getTokenCookieOptions, COOKIE } from "@/services/app/auth/auth.services";
+import { registerUser, loginUser, getProfile, updateProfile, changePassword, signToken, getTokenCookieOptions, COOKIE } from "@/services/app/auth/auth.services";
 
 export async function register(req: Request, res: Response): Promise<void> {
   const { firstName, middleName, lastName, email, password } = req.body;
@@ -53,4 +53,26 @@ export async function updateProfileHandler(req: AuthRequest, res: Response): Pro
   const user = await updateProfile(req.userId!, { firstName, middleName, lastName });
   if (!user) { res.status(404).json({ message: "User not found" }); return; }
   res.json(user);
+}
+
+export async function changePasswordHandler(req: AuthRequest, res: Response): Promise<void> {
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    res.status(400).json({ message: "currentPassword and newPassword are required" });
+    return;
+  }
+  const passwordErrors: string[] = [];
+  if (newPassword.length < 8) passwordErrors.push("at least 8 characters");
+  if (!/[A-Z]/.test(newPassword)) passwordErrors.push("an uppercase letter");
+  if (!/[a-z]/.test(newPassword)) passwordErrors.push("a lowercase letter");
+  if (!/[0-9]/.test(newPassword)) passwordErrors.push("a number");
+  if (!/[^A-Za-z0-9]/.test(newPassword)) passwordErrors.push("a symbol");
+  if (passwordErrors.length) {
+    res.status(400).json({ message: `Password must contain ${passwordErrors.join(", ")}` });
+    return;
+  }
+  const result = await changePassword(req.userId!, currentPassword, newPassword);
+  if (result === "not_found") { res.status(404).json({ message: "User not found" }); return; }
+  if (result === "wrong_password") { res.status(401).json({ message: "Current password is incorrect" }); return; }
+  res.json({ message: "Password changed successfully" });
 }
