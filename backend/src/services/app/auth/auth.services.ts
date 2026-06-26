@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { User } from "@/models/user.model";
 import config from "@/config/config";
+import { User } from "@/models/user.model";
 
 const COOKIE_NAME = "token";
 
@@ -48,7 +48,11 @@ export async function updateProfile(userId: string, data: { firstName?: string; 
   return User.findByIdAndUpdate(userId, { $set: data }, { new: true, runValidators: true }).select("-password");
 }
 
-export async function changePassword(userId: string, currentPassword: string, newPassword: string): Promise<"not_found" | "wrong_password" | "ok"> {
+export async function changePassword(
+  userId: string,
+  currentPassword: string,
+  newPassword: string,
+): Promise<"not_found" | "wrong_password" | "ok"> {
   const user = await User.findById(userId);
   if (!user) return "not_found";
   if (!(await bcrypt.compare(currentPassword, user.password))) return "wrong_password";
