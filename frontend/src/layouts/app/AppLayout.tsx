@@ -1,7 +1,7 @@
 import api from "@/axios/axios";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
@@ -26,13 +26,13 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-10 bg-noise px-4 sm:px-6 py-4 flex items-center shadow-md justify-between">
+      <header className="bg-muted sticky top-0 z-10  px-4 sm:px-6 py-4 flex items-center justify-between">
         <div className="flex flex-col">
           <span className="text-lg font-bold tracking-tight leading-none">
-            <span className="text-white">My</span>
+            <span className="text-dark">My</span>
             <span className="text-[#55e063]">Tasks</span>
           </span>
-          <span className="text-xs text-white/60 tracking-wide mt-0.5">Stay organized, stay ahead</span>
+          <span className="text-xs text-dark/20 tracking-wide mt-0.5">Stay organized, stay ahead</span>
         </div>
 
         {/* Desktop nav */}
@@ -42,18 +42,18 @@ export default function AppLayout() {
               key={to}
               to={to}
               end={end}
-              className={({ isActive }) => `text-base font-medium transition-colors ${isActive ? "text-white" : "text-white/60 hover:text-white"}`}
+              className={({ isActive }) => `text-base font-medium transition-colors ${isActive ? "text-dark" : "text-dark/60 hover:text-dark"}`}
             >
               {label}
             </NavLink>
           ))}
-          <Button size="default" onClick={() => setLogoutOpen(true)} className="bg-accent shadow-sm text-[#09453b] font-bold font-mono">
+          <Button size="default" onClick={() => setLogoutOpen(true)} className="bg-primary shadow-sm text-white  font-mono">
             Logout
           </Button>
         </nav>
 
         {/* Mobile drawer trigger */}
-        <button className="sm:hidden text-white p-1" onClick={() => setDrawerOpen(true)} aria-label="Open menu">
+        <button className="sm:hidden text-dark p-1" onClick={() => setDrawerOpen(true)} aria-label="Open menu">
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="3" y1="12" x2="21" y2="12" />
@@ -66,10 +66,10 @@ export default function AppLayout() {
       <Drawer open={drawerOpen} onOpenChange={setDrawerOpen} direction="right">
         <DrawerContent className="p-0 before:inset-0 before:rounded-none data-[vaul-drawer-direction=right]:w-full">
           <div className="flex flex-col h-full p-6">
-            <DrawerHeader className="px-0 py-0 border-b pb-4 mb-6">
-              <DrawerTitle className="text-left text-lg">Menu</DrawerTitle>
+            <DrawerHeader className="bg-muted border-b px-6 py-5 -mx-6 -mt-6 mb-6">
+              <DrawerTitle className="text-center text-lg font-bold text-dark">Menu</DrawerTitle>
             </DrawerHeader>
-            <nav className="flex flex-col gap-1">
+            <nav className="flex flex-col gap-1.5 px-2">
               {links.map(({ to, label, end }) => (
                 <NavLink
                   key={to}
@@ -77,14 +77,14 @@ export default function AppLayout() {
                   end={end}
                   onClick={() => setDrawerOpen(false)}
                   className={({ isActive }) =>
-                    `rounded-lg px-3 py-2.5 text-base font-medium transition-colors ${isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`
+                    `flex items-center justify-center rounded-4xl px-4 py-3 text-base font-medium transition-all ${isActive ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`
                   }
                 >
                   {label}
                 </NavLink>
               ))}
             </nav>
-            <div className="mt-auto border-t pt-4">
+            <div className="mt-auto border-t pt-4 px-2">
               <Button
                 className="w-full bg-accent shadow-sm text-[#09453b] font-bold font-mono"
                 onClick={() => {
