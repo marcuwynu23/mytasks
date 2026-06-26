@@ -1,21 +1,10 @@
 import { useAuth } from "@/auth/useAuth";
 import api from "@/axios/axios";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PasswordInput } from "@/components/ui/password-input";
 import { useState } from "react";
-
-const PASSWORD_RULES = [
-  { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
-  { label: "Uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
-  { label: "Lowercase letter", test: (p: string) => /[a-z]/.test(p) },
-  { label: "Number", test: (p: string) => /[0-9]/.test(p) },
-  { label: "Symbol (!@#$…)", test: (p: string) => /[^A-Za-z0-9]/.test(p) },
-];
+import { ChangePasswordDialog } from "./ChangePasswordDialog";
+import { EditProfileDialog } from "./EditProfileDialog";
 
 export default function ProfilePage() {
   const { user, setUser } = useAuth();
@@ -71,7 +60,6 @@ export default function ProfilePage() {
     }
   }
 
-  const allRulesPassed = PASSWORD_RULES.every(({ test }) => test(pwForm.newPassword));
   const initials = `${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`.toUpperCase();
 
   return (
@@ -89,19 +77,13 @@ export default function ProfilePage() {
                 {initials}
               </div>
               <div>
-                <CardTitle className="text-lg">
-                  {user?.firstName} {user?.lastName}
-                </CardTitle>
+                <CardTitle className="text-lg">{user?.firstName} {user?.lastName}</CardTitle>
                 <p className="text-sm text-muted-foreground">{user?.email}</p>
               </div>
             </div>
             <div className="flex gap-2">
-              <Button size="sm" variant="outline" onClick={openChangePassword}>
-                Change Password
-              </Button>
-              <Button size="sm" onClick={openEdit}>
-                Edit Profile
-              </Button>
+              <Button size="sm" variant="outline" onClick={openChangePassword}>Change Password</Button>
+              <Button size="sm" onClick={openEdit}>Edit Profile</Button>
             </div>
           </div>
         </CardHeader>
@@ -115,103 +97,8 @@ export default function ProfilePage() {
         </CardContent>
       </Card>
 
-      {/* Edit Profile Dialog */}
-      <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit Profile</DialogTitle>
-          </DialogHeader>
-          <form id="profile-form" onSubmit={handleEditSubmit} className="space-y-3">
-            <div className="space-y-1">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input
-                id="firstName"
-                name="firstName"
-                value={editForm.firstName}
-                onChange={(e) => setEditForm((f) => ({ ...f, firstName: e.target.value }))}
-                required
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="middleName">Middle Name</Label>
-              <Input
-                id="middleName"
-                name="middleName"
-                value={editForm.middleName}
-                onChange={(e) => setEditForm((f) => ({ ...f, middleName: e.target.value }))}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input
-                id="lastName"
-                name="lastName"
-                value={editForm.lastName}
-                onChange={(e) => setEditForm((f) => ({ ...f, lastName: e.target.value }))}
-                required
-              />
-            </div>
-            {editError && <p className="text-sm text-destructive">{editError}</p>}
-          </form>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setEditOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" form="profile-form" disabled={editLoading}>
-              {editLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Change Password Dialog */}
-      <Dialog open={pwOpen} onOpenChange={setPwOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Change Password</DialogTitle>
-          </DialogHeader>
-          <form id="pw-form" onSubmit={handlePwSubmit} className="space-y-3">
-            <div className="space-y-1">
-              <Label htmlFor="currentPassword">Current Password</Label>
-              <PasswordInput
-                id="currentPassword"
-                value={pwForm.currentPassword}
-                onChange={(e) => setPwForm((f) => ({ ...f, currentPassword: e.target.value }))}
-                required
-                autoComplete="current-password"
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="newPassword">New Password</Label>
-              <PasswordInput
-                id="newPassword"
-                value={pwForm.newPassword}
-                onChange={(e) => setPwForm((f) => ({ ...f, newPassword: e.target.value }))}
-                required
-                autoComplete="new-password"
-              />
-              {pwForm.newPassword && (
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {PASSWORD_RULES.map(({ label, test }) => (
-                    <Badge key={label} variant={test(pwForm.newPassword) ? "default" : "outline"} className="text-xs">
-                      {test(pwForm.newPassword) ? "✓" : "✗"} {label}
-                    </Badge>
-                  ))}
-                </div>
-              )}
-            </div>
-            {pwError && <p className="text-sm text-destructive">{pwError}</p>}
-          </form>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setPwOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" form="pw-form" disabled={pwLoading || !allRulesPassed}>
-              {pwLoading ? "Saving..." : "Change Password"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <EditProfileDialog open={editOpen} onOpenChange={setEditOpen} form={editForm} onChange={setEditForm} onSubmit={handleEditSubmit} error={editError} loading={editLoading} />
+      <ChangePasswordDialog open={pwOpen} onOpenChange={setPwOpen} form={pwForm} onChange={setPwForm} onSubmit={handlePwSubmit} error={pwError} loading={pwLoading} />
     </div>
   );
 }
