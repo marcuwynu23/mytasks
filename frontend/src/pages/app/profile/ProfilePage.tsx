@@ -77,7 +77,7 @@ export default function ProfilePage() {
   return (
     <div className="p-4 sm:p-8 space-y-8">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">Profile</h1>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-wide">Profile</h1>
         <p className="text-muted-foreground mt-1">Manage your personal information.</p>
       </div>
 
@@ -96,8 +96,12 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className="flex gap-2">
-              <Button size="sm" variant="outline" onClick={openChangePassword}>Change Password</Button>
-              <Button size="sm" onClick={openEdit}>Edit Profile</Button>
+              <Button size="sm" variant="outline" onClick={openChangePassword}>
+                Change Password
+              </Button>
+              <Button size="sm" onClick={openEdit}>
+                Edit Profile
+              </Button>
             </div>
           </div>
         </CardHeader>
@@ -120,21 +124,42 @@ export default function ProfilePage() {
           <form id="profile-form" onSubmit={handleEditSubmit} className="space-y-3">
             <div className="space-y-1">
               <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" name="firstName" value={editForm.firstName} onChange={(e) => setEditForm((f) => ({ ...f, firstName: e.target.value }))} required />
+              <Input
+                id="firstName"
+                name="firstName"
+                value={editForm.firstName}
+                onChange={(e) => setEditForm((f) => ({ ...f, firstName: e.target.value }))}
+                required
+              />
             </div>
             <div className="space-y-1">
               <Label htmlFor="middleName">Middle Name</Label>
-              <Input id="middleName" name="middleName" value={editForm.middleName} onChange={(e) => setEditForm((f) => ({ ...f, middleName: e.target.value }))} />
+              <Input
+                id="middleName"
+                name="middleName"
+                value={editForm.middleName}
+                onChange={(e) => setEditForm((f) => ({ ...f, middleName: e.target.value }))}
+              />
             </div>
             <div className="space-y-1">
               <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" name="lastName" value={editForm.lastName} onChange={(e) => setEditForm((f) => ({ ...f, lastName: e.target.value }))} required />
+              <Input
+                id="lastName"
+                name="lastName"
+                value={editForm.lastName}
+                onChange={(e) => setEditForm((f) => ({ ...f, lastName: e.target.value }))}
+                required
+              />
             </div>
             {editError && <p className="text-sm text-destructive">{editError}</p>}
           </form>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditOpen(false)}>Cancel</Button>
-            <Button type="submit" form="profile-form" disabled={editLoading}>{editLoading ? "Saving..." : "Save Changes"}</Button>
+            <Button variant="outline" onClick={() => setEditOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" form="profile-form" disabled={editLoading}>
+              {editLoading ? "Saving..." : "Save Changes"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -148,11 +173,23 @@ export default function ProfilePage() {
           <form id="pw-form" onSubmit={handlePwSubmit} className="space-y-3">
             <div className="space-y-1">
               <Label htmlFor="currentPassword">Current Password</Label>
-              <PasswordInput id="currentPassword" value={pwForm.currentPassword} onChange={(e) => setPwForm((f) => ({ ...f, currentPassword: e.target.value }))} required autoComplete="current-password" />
+              <PasswordInput
+                id="currentPassword"
+                value={pwForm.currentPassword}
+                onChange={(e) => setPwForm((f) => ({ ...f, currentPassword: e.target.value }))}
+                required
+                autoComplete="current-password"
+              />
             </div>
             <div className="space-y-1">
               <Label htmlFor="newPassword">New Password</Label>
-              <PasswordInput id="newPassword" value={pwForm.newPassword} onChange={(e) => setPwForm((f) => ({ ...f, newPassword: e.target.value }))} required autoComplete="new-password" />
+              <PasswordInput
+                id="newPassword"
+                value={pwForm.newPassword}
+                onChange={(e) => setPwForm((f) => ({ ...f, newPassword: e.target.value }))}
+                required
+                autoComplete="new-password"
+              />
               {pwForm.newPassword && (
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {PASSWORD_RULES.map(({ label, test }) => (
@@ -166,8 +203,12 @@ export default function ProfilePage() {
             {pwError && <p className="text-sm text-destructive">{pwError}</p>}
           </form>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setPwOpen(false)}>Cancel</Button>
-            <Button type="submit" form="pw-form" disabled={pwLoading || !allRulesPassed}>{pwLoading ? "Saving..." : "Change Password"}</Button>
+            <Button variant="outline" onClick={() => setPwOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" form="pw-form" disabled={pwLoading || !allRulesPassed}>
+              {pwLoading ? "Saving..." : "Change Password"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
