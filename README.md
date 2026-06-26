@@ -74,6 +74,8 @@ docker compose down -v
 
 ### Backend
 
+> **Note:** Copy `.env.example` to `.env` and fill in the values before starting.
+
 ```bash
 cd backend
 pnpm install
@@ -128,8 +130,18 @@ Task  { title, description, status, userId, createdAt, updatedAt }
 
 ## Running Tests
 
+### Backend
+
+> **Note:** Make sure `.env` exists (see [backend setup](#backend)) before running tests.
+
 ```bash
 cd backend && pnpm test
+```
+
+### Frontend
+
+```bash
+cd frontend && pnpm test
 ```
 
 ---
