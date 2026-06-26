@@ -1,10 +1,11 @@
 import { create } from "zustand";
+import type { IUser } from "@/types/user";
 
 type AuthState = {
-  user: any;
+  user: IUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  setUser: (user: any) => void;
+  setUser: (user: IUser) => void;
   logout: () => void;
   setLoading: (loading: boolean) => void;
 };
