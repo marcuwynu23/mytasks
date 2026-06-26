@@ -9,7 +9,7 @@ export async function findTask(id: string, userId: string) {
 }
 
 export async function createTask(title: string, description: string, userId: string, dueDate?: string | null) {
-  return Task.create({ title, description, userId, dueDate: dueDate ? new Date(dueDate) : null });
+  return Task.create({ title, description, userId, dueDate: dueDate ? new Date(dueDate) : undefined });
 }
 
 export async function updateTask(id: string, userId: string, data: Record<string, unknown>) {
