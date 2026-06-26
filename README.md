@@ -101,6 +101,8 @@ POST   /api/auth/register
 POST   /api/auth/login
 POST   /api/auth/logout
 GET    /api/auth/profile
+PUT    /api/auth/profile
+PUT    /api/auth/password
 ```
 
 ### Tasks
@@ -128,7 +130,6 @@ Task  { title, description, status, userId, createdAt, updatedAt }
 
 ```bash
 cd backend && pnpm test
-cd frontend && pnpm test
 ```
 
 ---
