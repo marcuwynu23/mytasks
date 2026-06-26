@@ -1,9 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-interface PasswordInputProps extends React.ComponentProps<typeof Input> {}
-
-export function PasswordInput(props: PasswordInputProps) {
+export function PasswordInput(props: React.ComponentProps<typeof Input>) {
   const [show, setShow] = useState(false);
   return (
     <div className="relative">
