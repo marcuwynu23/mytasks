@@ -66,7 +66,7 @@ export default function AppLayout() {
       <Drawer open={drawerOpen} onOpenChange={setDrawerOpen} direction="right">
         <DrawerContent className="p-0 before:inset-0 before:rounded-none data-[vaul-drawer-direction=right]:w-full">
           <div className="flex flex-col h-full p-6">
-            <DrawerHeader className="bg-muted border-b px-6 py-5 -mx-6 -mt-6 mb-6">
+            <DrawerHeader className="px-6 py-5 -mx-6 -mt-6 mb-6">
               <DrawerTitle className="text-center text-lg font-bold text-dark">Menu</DrawerTitle>
             </DrawerHeader>
             <nav className="flex flex-col gap-1.5 px-2">
@@ -86,7 +86,7 @@ export default function AppLayout() {
             </nav>
             <div className="mt-auto border-t pt-4 px-2">
               <Button
-                className="w-full bg-accent shadow-sm text-[#09453b] font-bold font-mono"
+                className="w-full bg-primary shadow-sm text-white font-bold"
                 onClick={() => {
                   setDrawerOpen(false);
                   setLogoutOpen(true);
