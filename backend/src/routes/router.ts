@@ -1,5 +1,5 @@
+import { type Application, Router } from "express";
 import { healthCheck } from "@/controlllers/common/healthcheck.controller";
-import { Application, Router } from "express";
 
 import authRouter from "./app/auth/auth.route";
 import taskRouter from "./app/tasks/task.routes";
