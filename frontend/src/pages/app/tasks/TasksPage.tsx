@@ -70,7 +70,7 @@ export default function TasksPage() {
       <div className="flex flex-col sm:flex-row sm:justify-end gap-3">
         <Input placeholder="Search tasks..." value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} className="sm:max-w-sm" />
         <Select value={filter} onValueChange={(v) => { setFilter(v as typeof filter); setPage(1); }}>
-          <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-full sm:w-36"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
