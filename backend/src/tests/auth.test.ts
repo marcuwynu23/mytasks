@@ -1,10 +1,16 @@
 import request from "supertest";
 import app from "@/app";
-import { setupDB, teardownDB, clearDB } from "./setup";
+import { clearDB, setupDB, teardownDB } from "./setup";
 
-beforeAll(async () => { await setupDB(); });
-afterAll(async () => { await teardownDB(); });
-afterEach(async () => { await clearDB(); });
+beforeAll(async () => {
+  await setupDB();
+});
+afterAll(async () => {
+  await teardownDB();
+});
+afterEach(async () => {
+  await clearDB();
+});
 
 const BASE = "/api/auth";
 const credentials = { firstName: "Test", middleName: "M", lastName: "User", email: "test@example.com", password: "Password1!" };
@@ -18,7 +24,9 @@ describe("POST /api/auth/register", () => {
   });
 
   it("registers without middleName (optional)", async () => {
-    const res = await request(app).post(`${BASE}/register`).send({ firstName: "Jane", lastName: "Doe", email: "jane@example.com", password: "Password1!" });
+    const res = await request(app)
+      .post(`${BASE}/register`)
+      .send({ firstName: "Jane", lastName: "Doe", email: "jane@example.com", password: "Password1!" });
     expect(res.status).toBe(201);
   });
 
@@ -34,22 +42,30 @@ describe("POST /api/auth/register", () => {
   });
 
   it("returns 400 for weak password (too short)", async () => {
-    const res = await request(app).post(`${BASE}/register`).send({ ...credentials, password: "Ab1!" });
+    const res = await request(app)
+      .post(`${BASE}/register`)
+      .send({ ...credentials, password: "Ab1!" });
     expect(res.status).toBe(400);
   });
 
   it("returns 400 for password missing uppercase", async () => {
-    const res = await request(app).post(`${BASE}/register`).send({ ...credentials, password: "password1!" });
+    const res = await request(app)
+      .post(`${BASE}/register`)
+      .send({ ...credentials, password: "password1!" });
     expect(res.status).toBe(400);
   });
 
   it("returns 400 for password missing number", async () => {
-    const res = await request(app).post(`${BASE}/register`).send({ ...credentials, password: "Password!" });
+    const res = await request(app)
+      .post(`${BASE}/register`)
+      .send({ ...credentials, password: "Password!" });
     expect(res.status).toBe(400);
   });
 
   it("returns 400 for password missing symbol", async () => {
-    const res = await request(app).post(`${BASE}/register`).send({ ...credentials, password: "Password1" });
+    const res = await request(app)
+      .post(`${BASE}/register`)
+      .send({ ...credentials, password: "Password1" });
     expect(res.status).toBe(400);
   });
 });

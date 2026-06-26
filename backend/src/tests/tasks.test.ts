@@ -1,10 +1,16 @@
 import request from "supertest";
 import app from "@/app";
-import { setupDB, teardownDB, clearDB } from "./setup";
+import { clearDB, setupDB, teardownDB } from "./setup";
 
-beforeAll(async () => { await setupDB(); });
-afterAll(async () => { await teardownDB(); });
-afterEach(async () => { await clearDB(); });
+beforeAll(async () => {
+  await setupDB();
+});
+afterAll(async () => {
+  await teardownDB();
+});
+afterEach(async () => {
+  await clearDB();
+});
 
 const AUTH = "/api/auth";
 const TASKS = "/api/tasks";
