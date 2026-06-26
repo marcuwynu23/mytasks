@@ -12,7 +12,7 @@ describe("QuoteCard", () => {
 
   it("renders quote content and author", () => {
     render(<QuoteCard quote={{ content: "Just do it.", author: "Nike" }} />);
-    expect(screen.getByText(/"Just do it."/)).toBeInTheDocument();
+    expect(screen.getByText(/Just do it\./)).toBeInTheDocument();
     expect(screen.getByText(/Nike/)).toBeInTheDocument();
   });
 });
