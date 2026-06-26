@@ -75,26 +75,21 @@ export default function TasksPage() {
   }
 
   return (
-    <div className="p-8 space-y-4">
+    <div className="p-4 sm:p-8 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#09453b] tracking-wide">Tasks</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">Tasks</h1>
           <p className="text-muted-foreground mt-1">Manage and track your tasks.</p>
         </div>
-        <Button size="sm" onClick={openCreate}>
-          New Task
-        </Button>
+        <Button size="sm" onClick={openCreate}>New Task</Button>
       </div>
 
-      <div className="flex justify-end gap-3">
+      <div className="flex flex-col sm:flex-row sm:justify-end gap-3">
         <Input
           placeholder="Search tasks..."
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1);
-          }}
-          className="max-w-sm"
+          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+          className="sm:max-w-sm"
         />
         <Select
           value={filter}
@@ -132,7 +127,7 @@ export default function TasksPage() {
               </div>
             )}
             {paginated.map((t) => (
-              <div key={t._id} className="flex items-start gap-3 py-3 border-b last:border-0">
+              <div key={t._id} className="flex flex-wrap items-start gap-3 py-3 border-b last:border-0">
                 <Checkbox id={`task-${t._id}`} checked={t.status === "completed"} onCheckedChange={() => toggle(t)} className="mt-0.5" />
                 <Badge variant={t.status === "completed" ? "secondary" : "outline"} className="mt-0.5 shrink-0">
                   {t.status}
@@ -146,13 +141,9 @@ export default function TasksPage() {
                   </label>
                   {t.description && <p className="text-sm text-muted-foreground mt-0.5 truncate">{t.description}</p>}
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <Button size="sm" variant="outline" onClick={() => openEdit(t)}>
-                    Edit
-                  </Button>
-                  <Button size="sm" onClick={() => setDeleteTarget(t)}>
-                    Delete
-                  </Button>
+                <div className="flex items-center gap-2 shrink-0 ml-auto">
+                  <Button size="sm" variant="outline" onClick={() => openEdit(t)}>Edit</Button>
+                  <Button size="sm" onClick={() => setDeleteTarget(t)}>Delete</Button>
                 </div>
               </div>
             ))}
