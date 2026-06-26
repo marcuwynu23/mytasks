@@ -32,17 +32,15 @@ export default function DashboardPage() {
 
   return (
     <div className="p-8 space-y-8">
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-wide text-[#26524e]">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Here's an overview of your tasks.</p>
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold tracking-wide">Dashboard</h1>
+        <p className="text-muted-foreground mt-1">Here's an overview of your tasks.</p>
       </div>
 
       <div className="flex items-stretch gap-5">
         <Card className="shadow-none rounded-2xl flex-1">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Quote of the Day</CardTitle>
+            <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Quote of the Day</CardTitle>
           </CardHeader>
           <CardContent>
             {quote ? (
@@ -58,30 +56,28 @@ export default function DashboardPage() {
 
         <Card className="shadow-none rounded-2xl flex items-center justify-center px-8">
           <div className="text-center">
-            <p className="text-4xl text-[#26524e] font-bold font-mono tracking-tight">{time}</p>
+            <p className="text-4xl font-bold font-mono tracking-tight">{time}</p>
             <p className="text-sm text-muted-foreground mt-1">{date}</p>
           </div>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <StatCard title="Total Tasks" value={stats.total} />
-        <StatCard title="Completed" value={stats.completed} />
-        <StatCard title="Pending" value={stats.pending} />
+        {[
+          { label: "Total Tasks", value: stats.total },
+          { label: "Completed", value: stats.completed },
+          { label: "Pending", value: stats.pending },
+        ].map(({ label, value }) => (
+          <Card key={label} className="shadow-none rounded-2xl">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider text-center">{label}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-4xl font-bold text-center">{value}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
-  );
-}
-
-function StatCard({ title, value }: { title: string; value: number }) {
-  return (
-    <Card className="shadow-none rounded-2xl bg-primary border-accent">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-primary-foreground text-center">{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-4xl font-bold text-primary-foreground text-center">{value}</p>
-      </CardContent>
-    </Card>
   );
 }
