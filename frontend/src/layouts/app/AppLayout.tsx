@@ -1,6 +1,7 @@
 import api from "@/axios/axios";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
@@ -14,8 +15,8 @@ const links = [
 export default function AppLayout() {
   const logout = useAuthStore((s) => s.logout);
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   async function handleLogout() {
     await api.post("/auth/logout").catch(() => {});
@@ -46,69 +47,70 @@ export default function AppLayout() {
               {label}
             </NavLink>
           ))}
-          <Button size="default" onClick={() => setOpen(true)} className="bg-accent shadow-sm text-[#09453b] font-bold font-mono">
+          <Button size="default" onClick={() => setLogoutOpen(true)} className="bg-accent shadow-sm text-[#09453b] font-bold font-mono">
             Logout
           </Button>
         </nav>
 
-        {/* Mobile hamburger */}
-        <button className="sm:hidden text-white p-1" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
+        {/* Mobile drawer trigger */}
+        <button className="sm:hidden text-white p-1" onClick={() => setDrawerOpen(true)} aria-label="Open menu">
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            {menuOpen ? (
-              <>
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </>
-            ) : (
-              <>
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </>
-            )}
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
           </svg>
         </button>
       </header>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="sm:hidden bg-noise border-t border-white/10 px-4 py-3 flex flex-col gap-3">
-          {links.map(({ to, label, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => `text-base font-medium transition-colors ${isActive ? "text-white" : "text-white/60"}`}
-            >
-              {label}
-            </NavLink>
-          ))}
-          <Button
-            size="sm"
-            onClick={() => {
-              setMenuOpen(false);
-              setOpen(true);
-            }}
-            className="bg-accent text-[#09453b] font-bold font-mono w-fit"
-          >
-            Logout
-          </Button>
-        </div>
-      )}
+      {/* Mobile drawer */}
+      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen} direction="right">
+        <DrawerContent className="p-0 before:inset-0 before:rounded-none data-[vaul-drawer-direction=right]:w-full">
+          <div className="flex flex-col h-full p-6">
+            <DrawerHeader className="px-0 py-0 border-b pb-4 mb-6">
+              <DrawerTitle className="text-left text-lg">Menu</DrawerTitle>
+            </DrawerHeader>
+            <nav className="flex flex-col gap-1">
+              {links.map(({ to, label, end }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  end={end}
+                  onClick={() => setDrawerOpen(false)}
+                  className={({ isActive }) =>
+                    `rounded-lg px-3 py-2.5 text-base font-medium transition-colors ${isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`
+                  }
+                >
+                  {label}
+                </NavLink>
+              ))}
+            </nav>
+            <div className="mt-auto border-t pt-4">
+              <Button
+                className="w-full bg-accent shadow-sm text-[#09453b] font-bold font-mono"
+                onClick={() => {
+                  setDrawerOpen(false);
+                  setLogoutOpen(true);
+                }}
+              >
+                Logout
+              </Button>
+            </div>
+          </div>
+        </DrawerContent>
+      </Drawer>
 
       <main className="flex-1">
         <Outlet />
       </main>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={logoutOpen} onOpenChange={setLogoutOpen}>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
             <DialogTitle>Confirm logout</DialogTitle>
             <DialogDescription>Are you sure you want to log out of Taskly?</DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <Button variant="outline" onClick={() => setLogoutOpen(false)}>
               Cancel
             </Button>
             <Button onClick={handleLogout} className="bg-primary text-primary-foreground">
