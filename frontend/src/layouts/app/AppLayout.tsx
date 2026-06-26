@@ -47,7 +47,7 @@ export default function AppLayout() {
               {label}
             </NavLink>
           ))}
-          <Button size="default" onClick={() => setLogoutOpen(true)} className="bg-primary text-white  font-mono">
+          <Button size="default" onClick={() => setLogoutOpen(true)} className="bg-primary text-white">
             Logout
           </Button>
         </nav>
