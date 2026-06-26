@@ -122,12 +122,6 @@ cd frontend && pnpm test:e2e
 
 ---
 
-## Assumptions
-
-- Users can only access their own tasks
-- Authentication required for all protected resources
-- Passwords are hashed with bcrypt
-
 ## Author
 
 Mark Wayne Menorca
