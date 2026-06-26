@@ -1,5 +1,5 @@
-import cors, { CorsOptions } from "cors";
-import { Application } from "express";
+import cors, { type CorsOptions } from "cors";
+import type { Application } from "express";
 import config from "@/config/config";
 
 export function useCorsMiddleware(app: Application): void {
