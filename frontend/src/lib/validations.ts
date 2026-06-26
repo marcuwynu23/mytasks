@@ -39,4 +39,5 @@ export const changePasswordSchema = z.object({
 export const taskSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
+  dueDate: z.string().optional().nullable(),
 });
