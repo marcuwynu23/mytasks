@@ -1,14 +1,16 @@
 import { Router } from "express";
-import { login, logout, profile, register, updateProfileHandler, changePasswordHandler } from "@/controlllers/app/auth/auth.controller";
+import { changePasswordHandler, login, logout, profile, register, updateProfileHandler } from "@/controlllers/app/auth/auth.controller";
 import { authMiddleware } from "@/middlewares/auth.middleware";
+import { validate } from "@/middlewares/validate.middleware";
+import { changePasswordSchema, loginSchema, registerSchema, updateProfileSchema } from "@/validations/auth.validation";
 
 const authRouter: Router = Router();
 
-authRouter.post("/register", register);
-authRouter.post("/login", login);
+authRouter.post("/register", validate(registerSchema), register);
+authRouter.post("/login", validate(loginSchema), login);
 authRouter.post("/logout", logout);
 authRouter.get("/profile", authMiddleware, profile);
-authRouter.put("/profile", authMiddleware, updateProfileHandler);
-authRouter.put("/password", authMiddleware, changePasswordHandler);
+authRouter.put("/profile", authMiddleware, validate(updateProfileSchema), updateProfileHandler);
+authRouter.put("/password", authMiddleware, validate(changePasswordSchema), changePasswordHandler);
 
 export default authRouter;
