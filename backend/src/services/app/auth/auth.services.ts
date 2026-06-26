@@ -47,3 +47,12 @@ export async function getProfile(userId: string) {
 export async function updateProfile(userId: string, data: { firstName?: string; middleName?: string; lastName?: string }) {
   return User.findByIdAndUpdate(userId, { $set: data }, { new: true, runValidators: true }).select("-password");
 }
+
+export async function changePassword(userId: string, currentPassword: string, newPassword: string): Promise<"not_found" | "wrong_password" | "ok"> {
+  const user = await User.findById(userId);
+  if (!user) return "not_found";
+  if (!(await bcrypt.compare(currentPassword, user.password))) return "wrong_password";
+  user.password = await bcrypt.hash(newPassword, 10);
+  await user.save();
+  return "ok";
+}
