@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-type Form = { title: string; description: string };
+type Form = { title: string; description: string; dueDate: string };
 
 interface Props {
   open: boolean;
@@ -30,6 +30,10 @@ export function TaskFormDialog({ open, onOpenChange, editing, form, onChange, on
           <div className="space-y-1">
             <Label htmlFor="description">Description</Label>
             <Textarea id="description" placeholder="Optional description" value={form.description} onChange={(e) => onChange({ ...form, description: e.target.value })} />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="dueDate">Due Date <span className="text-muted-foreground">(optional)</span></Label>
+            <Input id="dueDate" type="datetime-local" value={form.dueDate} onChange={(e) => onChange({ ...form, dueDate: e.target.value })} />
           </div>
         </form>
         <DialogFooter>
