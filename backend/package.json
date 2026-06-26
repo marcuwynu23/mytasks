@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node build.js",
     "start": "node dist/index.js",
     "dev": "nodemon --watch src --watch .env --exec tsx src/index.ts",
+    "build": "node build.js",
     "lint": "biome check --write src",
     "format": "biome format --write src",
     "test": "jest",
