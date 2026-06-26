@@ -86,7 +86,7 @@ export default function ProfilePage() {
         <p className="text-muted-foreground mt-1">Manage your personal information.</p>
       </div>
 
-      <Card className="bg-muted shadow-none rounded-2xl">
+      <Card className="shadow-none rounded-2xl border-0 ring-0">
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-4">
