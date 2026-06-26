@@ -1,8 +1,8 @@
+import { Router } from "express";
 import { createTask, deleteTask, getTask, getTasks, updateTask } from "@/controllers/app/tasks/task.controller";
 import { authMiddleware } from "@/middlewares/auth.middleware";
 import { validate } from "@/middlewares/validate.middleware";
 import { createTaskSchema, updateTaskSchema } from "@/validations/task.validation";
-import { Router } from "express";
 
 const taskRouter: Router = Router();
 
