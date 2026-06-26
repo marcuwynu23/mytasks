@@ -59,7 +59,7 @@ export default function RegisterPage() {
           <CardDescription>Fill in your details to register</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="firstName">First Name</Label>
               <Input id="firstName" value={form.firstName} onChange={set("firstName")} required />
