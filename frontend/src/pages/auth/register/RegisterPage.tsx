@@ -37,7 +37,7 @@ export default function RegisterPage() {
       setUser(data);
       navigate("/", { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.message ?? "Registration failed");
+      setError(err.response?.data?.message ?? err.message ?? "Registration failed");
     } finally {
       setLoading(false);
     }
