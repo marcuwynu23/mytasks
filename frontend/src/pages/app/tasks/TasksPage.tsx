@@ -8,7 +8,7 @@ import { TaskDeleteDialog } from "./TaskDeleteDialog";
 import { TaskFormDialog } from "./TaskFormDialog";
 import { TaskList, type Task } from "./TaskList";
 
-const EMPTY = { title: "", description: "" };
+const EMPTY = { title: "", description: "", dueDate: "" };
 const PAGE_SIZE = 8;
 
 export default function TasksPage() {
@@ -33,10 +33,11 @@ export default function TasksPage() {
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   function openCreate() { setEditing(null); setForm(EMPTY); setOpen(true); }
-  function openEdit(t: Task) { setEditing(t); setForm({ title: t.title, description: t.description }); setOpen(true); }
+  function openEdit(t: Task) { setEditing(t); setForm({ title: t.title, description: t.description, dueDate: t.dueDate ?? "" }); setOpen(true); }
 
   async function save() {
-    const result = taskSchema.safeParse(form);
+    const payload = { ...form, dueDate: form.dueDate ? new Date(form.dueDate).toISOString() : null };
+    const result = taskSchema.safeParse(payload);
     if (!result.success) return;
     if (editing) await api.put(`/tasks/${editing._id}`, result.data);
     else await api.post("/tasks", result.data);
