@@ -1,7 +1,7 @@
 import api from "@/axios/axios";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -78,7 +78,7 @@ export default function TasksPage() {
     <div className="p-8 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-wide">Tasks</h1>
+          <h1 className="text-2xl font-bold text-[#09453b] tracking-wide">Tasks</h1>
           <p className="text-muted-foreground mt-1">Manage and track your tasks.</p>
         </div>
         <Button size="sm" onClick={openCreate}>
@@ -117,8 +117,20 @@ export default function TasksPage() {
       <Card className="shadow-none rounded-2xl">
         <CardContent className="pt-0 p-0">
           <div className="overflow-y-auto max-h-[420px] px-6 scrollbar-primary">
-            {tasks.length === 0 && <p className="text-sm text-muted-foreground py-3">No tasks yet.</p>}
-            {tasks.length > 0 && filtered.length === 0 && <p className="text-sm text-muted-foreground py-3">No tasks match your search.</p>}
+            {tasks.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-12 text-center gap-1">
+                <p className="text-base font-medium">No tasks yet</p>
+                <p className="text-sm text-muted-foreground">
+                  Click <strong>New Task</strong> to get started.
+                </p>
+              </div>
+            )}
+            {tasks.length > 0 && filtered.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-12 text-center gap-1">
+                <p className="text-base font-medium">No matching tasks</p>
+                <p className="text-sm text-muted-foreground">Try a different search term or filter.</p>
+              </div>
+            )}
             {paginated.map((t) => (
               <div key={t._id} className="flex items-start gap-3 py-3 border-b last:border-0">
                 <Checkbox id={`task-${t._id}`} checked={t.status === "completed"} onCheckedChange={() => toggle(t)} className="mt-0.5" />
@@ -232,9 +244,7 @@ export default function TasksPage() {
             <Button variant="outline" onClick={() => setDeleteTarget(null)}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={confirmDelete}>
-              Delete
-            </Button>
+            <Button onClick={confirmDelete}>Delete</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
