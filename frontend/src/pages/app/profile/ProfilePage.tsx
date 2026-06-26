@@ -2,6 +2,7 @@ import { useAuth } from "@/auth/useAuth";
 import api from "@/axios/axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { profileSchema, changePasswordSchema } from "@/lib/validations";
 import { useState } from "react";
 import { ChangePasswordDialog } from "./ChangePasswordDialog";
 import { EditProfileDialog } from "./EditProfileDialog";
@@ -34,13 +35,21 @@ export default function ProfilePage() {
   async function handleEditSubmit(e: React.FormEvent) {
     e.preventDefault();
     setEditError("");
+
+    const result = profileSchema.safeParse(editForm);
+    if (!result.success) {
+      setEditError(result.error.issues.map((i) => i.message).join(", "));
+      return;
+    }
+
     setEditLoading(true);
     try {
-      const { data } = await api.put("/auth/profile", editForm);
+      const { data } = await api.put("/auth/profile", result.data);
       setUser(data);
       setEditOpen(false);
-    } catch (err: any) {
-      setEditError(err?.response?.data?.message ?? err?.message ?? "Update failed");
+    } catch (err) {
+      const axiosErr = err as { response?: { data?: { message?: string } }; message?: string };
+      setEditError(axiosErr.response?.data?.message ?? axiosErr.message ?? "Update failed");
     } finally {
       setEditLoading(false);
     }
@@ -49,12 +58,20 @@ export default function ProfilePage() {
   async function handlePwSubmit(e: React.FormEvent) {
     e.preventDefault();
     setPwError("");
+
+    const result = changePasswordSchema.safeParse(pwForm);
+    if (!result.success) {
+      setPwError(result.error.issues.map((i) => i.message).join(", "));
+      return;
+    }
+
     setPwLoading(true);
     try {
-      await api.put("/auth/password", pwForm);
+      await api.put("/auth/password", result.data);
       setPwOpen(false);
-    } catch (err: any) {
-      setPwError(err?.response?.data?.message ?? err?.message ?? "Failed to change password");
+    } catch (err) {
+      const axiosErr = err as { response?: { data?: { message?: string } }; message?: string };
+      setPwError(axiosErr.response?.data?.message ?? axiosErr.message ?? "Failed to change password");
     } finally {
       setPwLoading(false);
     }
