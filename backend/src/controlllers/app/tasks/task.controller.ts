@@ -16,8 +16,8 @@ export async function getTask(req: AuthRequest, res: Response): Promise<void> {
 }
 
 export async function createTask(req: AuthRequest, res: Response): Promise<void> {
-  const { title, description } = req.body;
-  res.status(201).json(await taskService.createTask(title, description, req.userId!));
+  const { title, description, dueDate } = req.body;
+  res.status(201).json(await taskService.createTask(title, description, req.userId!, dueDate));
 }
 
 export async function updateTask(req: AuthRequest, res: Response): Promise<void> {
