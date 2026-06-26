@@ -129,7 +129,7 @@ DELETE /api/tasks/:id
 
 ```js
 User  { firstName, middleName?, lastName, email, password }
-Task  { title, description, status, userId, createdAt, updatedAt }
+Task  { title, description, status, dueDate?, userId, createdAt, updatedAt }
 ```
 
 ---
