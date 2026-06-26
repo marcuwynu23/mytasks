@@ -36,19 +36,25 @@ export function TaskList({ tasks, filtered, paginated, page, totalPages, onPageC
             </div>
           )}
           {paginated.map((t) => (
-            <div key={t._id} className="flex flex-wrap items-start gap-3 py-3 border-b last:border-0">
-              <Checkbox id={`task-${t._id}`} checked={t.status === "completed"} onCheckedChange={() => onToggle(t)} className="mt-0.5" />
-              <Badge variant={t.status === "completed" ? "secondary" : "outline"} className="mt-0.5 shrink-0">{t.status}</Badge>
-              <div className="flex-1 min-w-0">
-                <label htmlFor={`task-${t._id}`} className={`text-base font-medium cursor-pointer ${t.status === "completed" ? "line-through text-muted-foreground" : ""}`}>
-                  {t.title}
-                </label>
-                {t.description && <p className="text-sm text-muted-foreground mt-0.5 truncate">{t.description}</p>}
-                {t.dueDate && <p className="text-xs text-muted-foreground mt-0.5">Due: {new Date(t.dueDate).toLocaleDateString()}</p>}
+            <div key={t._id} className="py-3 border-b last:border-0">
+              <div className="flex items-start gap-3">
+                <Checkbox id={`task-${t._id}`} checked={t.status === "completed"} onCheckedChange={() => onToggle(t)} className="mt-0.5" />
+                <Badge variant={t.status === "completed" ? "secondary" : "outline"} className="mt-0.5 shrink-0">{t.status}</Badge>
+                <div className="flex-1 min-w-0">
+                  <label htmlFor={`task-${t._id}`} className={`text-sm sm:text-base font-medium cursor-pointer truncate block ${t.status === "completed" ? "line-through text-muted-foreground" : ""}`}>
+                    {t.title}
+                  </label>
+                  {t.description && <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 truncate">{t.description}</p>}
+                  {t.dueDate && <p className="text-xs text-muted-foreground mt-0.5">Due: {new Date(t.dueDate).toLocaleDateString()}</p>}
+                </div>
+                <div className="hidden sm:flex items-center gap-2 shrink-0">
+                  <Button size="sm" variant="outline" onClick={() => onEdit(t)}>Edit</Button>
+                  <Button size="sm" onClick={() => onDelete(t)}>Delete</Button>
+                </div>
               </div>
-              <div className="flex items-center gap-2 shrink-0 ml-auto">
-                <Button size="sm" variant="outline" onClick={() => onEdit(t)}>Edit</Button>
-                <Button size="sm" onClick={() => onDelete(t)}>Delete</Button>
+              <div className="flex items-center gap-2 mt-2 sm:hidden">
+                <Button size="sm" variant="outline" onClick={() => onEdit(t)} className="flex-1">Edit</Button>
+                <Button size="sm" onClick={() => onDelete(t)} className="flex-1">Delete</Button>
               </div>
             </div>
           ))}
