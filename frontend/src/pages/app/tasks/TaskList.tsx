@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
-export type Task = { _id: string; title: string; description: string; status: "pending" | "completed" };
+export type Task = { _id: string; title: string; description: string; status: "pending" | "completed"; dueDate?: string };
 
 interface Props {
   tasks: Task[];
@@ -44,6 +44,7 @@ export function TaskList({ tasks, filtered, paginated, page, totalPages, onPageC
                   {t.title}
                 </label>
                 {t.description && <p className="text-sm text-muted-foreground mt-0.5 truncate">{t.description}</p>}
+                {t.dueDate && <p className="text-xs text-muted-foreground mt-0.5">Due: {new Date(t.dueDate).toLocaleDateString()}</p>}
               </div>
               <div className="flex items-center gap-2 shrink-0 ml-auto">
                 <Button size="sm" variant="outline" onClick={() => onEdit(t)}>Edit</Button>
