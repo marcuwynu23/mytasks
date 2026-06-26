@@ -2,6 +2,7 @@ import api from "@/axios/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { taskSchema } from "@/lib/validations";
 import { useEffect, useState } from "react";
 import { TaskDeleteDialog } from "./TaskDeleteDialog";
 import { TaskFormDialog } from "./TaskFormDialog";
@@ -35,8 +36,10 @@ export default function TasksPage() {
   function openEdit(t: Task) { setEditing(t); setForm({ title: t.title, description: t.description }); setOpen(true); }
 
   async function save() {
-    if (editing) await api.put(`/tasks/${editing._id}`, form);
-    else await api.post("/tasks", form);
+    const result = taskSchema.safeParse(form);
+    if (!result.success) return;
+    if (editing) await api.put(`/tasks/${editing._id}`, result.data);
+    else await api.post("/tasks", result.data);
     setOpen(false);
     load();
   }
