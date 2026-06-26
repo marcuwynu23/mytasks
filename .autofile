@@ -1,4 +1,19 @@
+start {
+  + cd backend && pnpm start
+  + cd frontend && pnpm start
+}
+
 dev {
   + cd backend && pnpm dev
   + cd frontend && pnpm dev
+}
+
+lint {
+  + cd backend && pnpm lint
+  + cd frontend && pnpm lint
+}
+
+test {
+  + cd backend && pnpm test
+  + cd frontend && pnpm test
 }
