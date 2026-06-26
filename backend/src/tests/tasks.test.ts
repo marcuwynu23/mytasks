@@ -11,7 +11,7 @@ const TASKS = "/api/tasks";
 
 async function authAgent() {
   const agent = request.agent(app);
-  await agent.post(`${AUTH}/register`).send({ firstName: "User", lastName: "One", email: "u@test.com", password: "pass1234" });
+  await agent.post(`${AUTH}/register`).send({ firstName: "User", lastName: "One", email: "u@test.com", password: "Password1!" });
   return agent;
 }
 
@@ -70,7 +70,7 @@ describe("GET /api/tasks/:id", () => {
     const created = await agent1.post(TASKS).send({ title: "private" });
 
     const agent2 = request.agent(app);
-    await agent2.post(`${AUTH}/register`).send({ firstName: "Other", lastName: "User", email: "other@test.com", password: "pass1234" });
+    await agent2.post(`${AUTH}/register`).send({ firstName: "Other", lastName: "User", email: "other@test.com", password: "Password1!" });
     const res = await agent2.get(`${TASKS}/${created.body._id}`);
     expect(res.status).toBe(404);
   });
@@ -113,7 +113,7 @@ describe("DELETE /api/tasks/:id", () => {
     const created = await agent1.post(TASKS).send({ title: "private" });
 
     const agent2 = request.agent(app);
-    await agent2.post(`${AUTH}/register`).send({ firstName: "Other", lastName: "User", email: "other2@test.com", password: "pass1234" });
+    await agent2.post(`${AUTH}/register`).send({ firstName: "Other", lastName: "User", email: "other2@test.com", password: "Password1!" });
     const res = await agent2.delete(`${TASKS}/${created.body._id}`);
     expect(res.status).toBe(404);
   });
