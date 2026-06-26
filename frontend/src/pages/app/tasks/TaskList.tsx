@@ -20,7 +20,7 @@ interface Props {
 
 export function TaskList({ tasks, filtered, paginated, page, totalPages, onPageChange, onToggle, onEdit, onDelete }: Props) {
   return (
-    <Card className="bg-muted shadow-none rounded-2xl">
+    <Card className="shadow-none rounded-2xl border-0 ring-0">
       <CardContent className="pt-0 p-0">
         <div className="overflow-y-auto max-h-[420px] px-6 scrollbar-primary">
           {tasks.length === 0 && (
