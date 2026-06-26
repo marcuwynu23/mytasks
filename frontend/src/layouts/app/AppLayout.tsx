@@ -25,9 +25,9 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-noise px-6 py-4 flex items-center justify-between">
-        <span className="text-3xl font-bold tracking-tight">
-          <span className="text-[#55e063]">Task</span>
-          <span className="text-white">ly</span>
+        <span className="text-2xl font-bold tracking-tight">
+          <span className="text-white">My</span>
+          <span className="text-[#55e063]">Tasks</span>
         </span>
         <nav className="flex items-center gap-8">
           {links.map(({ to, label, end }) => (
