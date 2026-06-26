@@ -1,10 +1,12 @@
 import { createContext } from "react";
 
+import type { IUser } from "@/types/user";
+
 export type AuthContextType = {
-  user: any;
+  user: IUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  setUser: (user: any) => void;
+  setUser: (user: IUser) => void;
   logout: () => void;
 };
 
