@@ -1,11 +1,12 @@
-import { Router } from "express";
 import { healthCheck } from "@/controlllers/common/healthcheck.controller";
-import apiRouter from "./api-router";
+import { Application, Router } from "express";
+import apiRouter from "./api.router";
 
 const router: Router = Router();
-
 router.use("/api", apiRouter);
 //health check
 router.get(["/", "/health"], healthCheck);
 
-export default router;
+export function setRouter(app: Application): void {
+  app.use(router);
+}
