@@ -75,15 +75,15 @@ export default function ProfilePage() {
   const initials = `${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`.toUpperCase();
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-4 sm:p-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-wide">Profile</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">Profile</h1>
         <p className="text-muted-foreground mt-1">Manage your personal information.</p>
       </div>
 
       <Card className="shadow-none rounded-2xl">
         <CardHeader className="pb-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xl font-bold">
                 {initials}
