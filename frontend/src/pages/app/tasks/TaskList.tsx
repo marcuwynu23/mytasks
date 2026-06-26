@@ -38,7 +38,7 @@ export function TaskList({ tasks, filtered, paginated, page, totalPages, onPageC
             </div>
           )}
           {paginated.map((t) => (
-            <div key={t._id} className="py-3 border-b last:border-0">
+            <div key={t._id} className="py-3">
               <div className="flex items-start gap-3">
                 <Checkbox id={`task-${t._id}`} checked={t.status === "completed"} onCheckedChange={() => onToggle(t)} className="mt-0.5" />
                 <Badge variant={t.status === "completed" ? "secondary" : "outline"} className="mt-0.5 shrink-0">
