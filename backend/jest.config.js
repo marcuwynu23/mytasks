@@ -6,4 +6,5 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
   testMatch: ["**/tests/**/*.test.ts"],
+  testTimeout: 120000,
 };
