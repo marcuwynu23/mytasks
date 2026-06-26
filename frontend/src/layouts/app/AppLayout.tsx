@@ -26,7 +26,7 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-muted shadow-sm sticky top-0 z-10  px-4 sm:px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-10  px-4 sm:px-6 py-4 flex items-center justify-between">
         <div className="flex flex-col">
           <span className="text-lg font-bold tracking-tight leading-none">
             <span className="text-dark">My</span>
