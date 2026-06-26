@@ -33,11 +33,12 @@ export default function DashboardPage() {
         <p className="text-muted-foreground mt-1">Here's an overview of your tasks.</p>
       </div>
 
-      <StatsCards stats={stats} />
       <div className="flex flex-col sm:flex-row items-stretch gap-5">
         <QuoteCard quote={quote} />
         <ClockCard />
       </div>
+
+      <StatsCards stats={stats} />
     </div>
   );
 }
