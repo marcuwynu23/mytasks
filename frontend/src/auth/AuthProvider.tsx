@@ -11,6 +11,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .then((r) => setUser(r.data))
       .catch(() => logout())
       .finally(() => setLoading(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
