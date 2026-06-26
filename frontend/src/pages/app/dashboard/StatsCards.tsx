@@ -11,7 +11,7 @@ export function StatsCards({ stats }: { stats: Stats }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {items.map(({ label, value, color }) => (
-        <Card key={label} className="shadow-none rounded-2xl border-0 ring-0">
+        <Card key={label} className="shadow-none rounded-2xl border ring-0">
           <CardHeader className="pb-1 pt-5">
             <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-widest text-center">{label}</CardTitle>
           </CardHeader>
