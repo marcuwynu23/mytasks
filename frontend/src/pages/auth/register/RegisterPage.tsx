@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
+import { registerSchema } from "@/lib/validations";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +15,7 @@ const PASSWORD_RULES = [
   { label: "Uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
   { label: "Lowercase letter", test: (p: string) => /[a-z]/.test(p) },
   { label: "Number", test: (p: string) => /[0-9]/.test(p) },
-  { label: "Symbol (!@#$…)", test: (p: string) => /[^A-Za-z0-9]/.test(p) },
+  { label: "Symbol (!@#$...)", test: (p: string) => /[^A-Za-z0-9]/.test(p) },
 ];
 
 export default function RegisterPage() {
@@ -29,14 +30,22 @@ export default function RegisterPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    const result = registerSchema.safeParse(form);
+    if (!result.success) {
+      setError(result.error.issues.map((i) => i.message).join(", "));
+      return;
+    }
+
     setLoading(true);
     try {
-      await axios.post("/auth/register", form);
+      await axios.post("/auth/register", result.data);
       const { data } = await axios.get("/auth/profile");
       setUser(data);
       navigate("/", { replace: true });
-    } catch (err: any) {
-      setError(err.response?.data?.message ?? err.message ?? "Registration failed");
+    } catch (err) {
+      const axiosErr = err as { response?: { data?: { message?: string } }; message?: string };
+      setError(axiosErr.response?.data?.message ?? axiosErr.message ?? "Registration failed");
     } finally {
       setLoading(false);
     }
