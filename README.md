@@ -1,6 +1,10 @@
-# Task Management
+<div align="center">
+
+# MyTasks - Task Management System
 
 A full-stack task management application built with React, Express.js, and MongoDB.
+
+</div>
 
 ## Features
 
@@ -12,13 +16,15 @@ A full-stack task management application built with React, Express.js, and Mongo
 
 ## Tech Stack
 
-| Layer    | Technologies                                                       |
-| -------- | ------------------------------------------------------------------ |
-| Frontend | React, Vite, TypeScript, Tailwind CSS, shadcn/ui, React Router DOM |
-| Backend  | Node.js, Express.js, JWT, bcryptjs                                 |
-| Database | MongoDB, Mongoose                                                  |
-| Testing  | Jest, Supertest, mongodb-memory-server                             |
-| Infra    | Docker / Podman, Nginx, pnpm                                       |
+| Layer      | Technologies                                                               |
+| ---------- | -------------------------------------------------------------------------- |
+| Frontend   | React, Vite, TypeScript, Tailwind CSS, shadcn/ui, Base UI, Radix UI, React Router DOM, Zustand, Axios, Lucide |
+| Backend    | Node.js, Express.js, JWT, bcryptjs, Helmet, Morgan, dotenv                  |
+| Validation | Zod                                                                         |
+| Database   | MongoDB, Mongoose                                                           |
+| Testing    | Vitest, Testing Library, jsdom, Jest, Supertest, mongodb-memory-server      |
+| Linting    | ESLint, typescript-eslint, Biome                                            |
+| Infra      | Docker / Podman, Nginx, pnpm, esbuild                                       |
 
 ## Application Screens
 
