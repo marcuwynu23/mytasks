@@ -1,6 +1,8 @@
 import api from "@/axios/axios";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAuthStore } from "@/store/authStore";
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const links = [
@@ -12,6 +14,7 @@ const links = [
 export default function AppLayout() {
   const logout = useAuthStore((s) => s.logout);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   async function handleLogout() {
     await api.post("/auth/logout").catch(() => {});
@@ -37,14 +40,32 @@ export default function AppLayout() {
               {label}
             </NavLink>
           ))}
-          <Button size="default" onClick={handleLogout} className="bg-accent text-[#09453b] font-bold font-mono">
+          <Button size="default" onClick={() => setOpen(true)} className="bg-accent text-[#09453b] font-bold font-mono">
             Logout
           </Button>
         </nav>
       </header>
+
       <main className="flex-1">
         <Outlet />
       </main>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Confirm logout</DialogTitle>
+            <DialogDescription>Are you sure you want to log out of Taskly?</DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleLogout} className="bg-primary text-primary-foreground">
+              Logout
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
