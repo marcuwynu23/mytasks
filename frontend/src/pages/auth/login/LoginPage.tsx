@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
+import { loginSchema } from "@/lib/validations";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,14 +20,22 @@ export default function LoginPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    const result = loginSchema.safeParse({ email, password });
+    if (!result.success) {
+      setError(result.error.issues.map((i) => i.message).join(", "));
+      return;
+    }
+
     setLoading(true);
     try {
-      await axios.post("/auth/login", { email, password });
+      await axios.post("/auth/login", result.data);
       const { data } = await axios.get("/auth/profile");
       setUser(data);
       navigate("/", { replace: true });
-    } catch (err: any) {
-      setError(err.response?.data?.message ?? err.message ?? "Invalid credentials");
+    } catch (err) {
+      const axiosErr = err as { response?: { data?: { message?: string } }; message?: string };
+      setError(axiosErr.response?.data?.message ?? axiosErr.message ?? "Invalid credentials");
     } finally {
       setLoading(false);
     }
