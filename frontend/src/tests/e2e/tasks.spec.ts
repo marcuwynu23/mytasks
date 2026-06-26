@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type APIRequestContext } from "@playwright/test";
 
 const TEST_USER = {
   firstName: "Jane",
@@ -7,7 +7,7 @@ const TEST_USER = {
   password: "TestPass123!",
 };
 
-async function cleanupTasks(request: Parameters<typeof test.BeforeAll>[0]["request"]) {
+async function cleanupTasks(request: APIRequestContext) {
   const login = await request.post("http://localhost:5000/api/auth/login", {
     data: { email: TEST_USER.email, password: TEST_USER.password },
   });
