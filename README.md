@@ -16,21 +16,15 @@ A full-stack task management application built with React, Express.js, and Mongo
 
 ## Tech Stack
 
-| Layer      | Technologies                                                               |
-| ---------- | -------------------------------------------------------------------------- |
+| Layer      | Technologies                                                                                                  |
+| ---------- | ------------------------------------------------------------------------------------------------------------- |
 | Frontend   | React, Vite, TypeScript, Tailwind CSS, shadcn/ui, Base UI, Radix UI, React Router DOM, Zustand, Axios, Lucide |
-| Backend    | Node.js, Express.js, JWT, bcryptjs, Helmet, Morgan, dotenv                  |
-| Validation | Zod                                                                         |
-| Database   | MongoDB, Mongoose                                                           |
-| Testing    | Vitest, Testing Library, jsdom, Jest, Supertest, mongodb-memory-server      |
-| Linting    | ESLint, typescript-eslint, Biome                                            |
-| Infra      | Docker / Podman, Nginx, pnpm, esbuild                                       |
-
-## Application Screens
-
-Login · Register · Dashboard · Tasks · Profile
-
----
+| Backend    | Node.js, Express.js, JWT, bcryptjs, Helmet, Morgan, dotenv                                                    |
+| Validation | Zod                                                                                                           |
+| Database   | MongoDB, Mongoose                                                                                             |
+| Testing    | Vitest, Testing Library, jsdom, Jest, Supertest, mongodb-memory-server                                        |
+| Linting    | ESLint, typescript-eslint, Biome                                                                              |
+| Infra      | Docker / Podman, Nginx, pnpm, esbuild                                                                         |
 
 ## Getting Started
 
@@ -100,37 +94,9 @@ pnpm dev               # http://localhost:5173
 
 ---
 
-## API Endpoints
+## API Testing
 
-### Auth
-
-```
-POST   /api/auth/register
-POST   /api/auth/login
-POST   /api/auth/logout
-GET    /api/auth/profile
-PUT    /api/auth/profile
-PUT    /api/auth/password
-```
-
-### Tasks
-
-```
-GET    /api/tasks
-POST   /api/tasks
-GET    /api/tasks/:id
-PUT    /api/tasks/:id
-DELETE /api/tasks/:id
-```
-
----
-
-## Database Schema
-
-```js
-User  { firstName, middleName?, lastName, email, password }
-Task  { title, description, status, dueDate?, userId, createdAt, updatedAt }
-```
+A Postman collection is included at [`postman/Task Management API.postman_collection.json`](./postman/Task%20Management%20API.postman_collection.json) covering all 12 API endpoints. Import it into Postman, Insomnia, or HTTPie GUI to test the API directly.
 
 ---
 
@@ -147,7 +113,11 @@ cd backend && pnpm test
 ### Frontend
 
 ```bash
+# Unit / component tests (Vitest)
 cd frontend && pnpm test
+
+# E2E tests (Playwright)
+cd frontend && pnpm test:e2e
 ```
 
 ---
