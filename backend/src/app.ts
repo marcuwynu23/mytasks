@@ -1,6 +1,6 @@
+import express, { type Application } from "express";
 import { setMiddleware } from "@/middlewares/middleware";
 import { setRouter } from "@/routes/router";
-import express, { Application } from "express";
 
 const app: Application = express();
 // middlewares

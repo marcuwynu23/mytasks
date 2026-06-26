@@ -1,6 +1,6 @@
-import { connectDatabase } from "./database/database";
 import app from "./app";
 import config from "./config/config";
+import { connectDatabase } from "./database/database";
 
 connectDatabase();
 
