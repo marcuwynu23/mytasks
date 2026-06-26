@@ -78,17 +78,22 @@ export default function TasksPage() {
     <div className="p-4 sm:p-8 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">Tasks</h1>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-wide">Tasks</h1>
           <p className="text-muted-foreground mt-1">Manage and track your tasks.</p>
         </div>
-        <Button size="sm" onClick={openCreate}>New Task</Button>
+        <Button size="sm" onClick={openCreate}>
+          New Task
+        </Button>
       </div>
 
       <div className="flex flex-col sm:flex-row sm:justify-end gap-3">
         <Input
           placeholder="Search tasks..."
           value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
           className="sm:max-w-sm"
         />
         <Select
@@ -142,8 +147,12 @@ export default function TasksPage() {
                   {t.description && <p className="text-sm text-muted-foreground mt-0.5 truncate">{t.description}</p>}
                 </div>
                 <div className="flex items-center gap-2 shrink-0 ml-auto">
-                  <Button size="sm" variant="outline" onClick={() => openEdit(t)}>Edit</Button>
-                  <Button size="sm" onClick={() => setDeleteTarget(t)}>Delete</Button>
+                  <Button size="sm" variant="outline" onClick={() => openEdit(t)}>
+                    Edit
+                  </Button>
+                  <Button size="sm" onClick={() => setDeleteTarget(t)}>
+                    Delete
+                  </Button>
                 </div>
               </div>
             ))}
