@@ -7,7 +7,7 @@ const TEST_USER = {
   password: "TestPass123!",
 };
 
-async function globalSetup(_config: FullConfig) {
+async function globalSetup() {
   const res = await fetch("http://localhost:5000/api/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
