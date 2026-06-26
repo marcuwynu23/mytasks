@@ -33,7 +33,7 @@ export default function DashboardPage() {
   return (
     <div className="p-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-wide">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-[#09453b] tracking-wide">Dashboard</h1>
         <p className="text-muted-foreground mt-1">Here's an overview of your tasks.</p>
       </div>
 
