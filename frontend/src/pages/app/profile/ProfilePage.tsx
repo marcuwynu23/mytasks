@@ -44,7 +44,7 @@ export default function ProfilePage() {
   return (
     <div className="p-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-wide">Profile</h1>
+        <h1 className="text-2xl font-bold text-[#09453b] tracking-wide">Profile</h1>
         <p className="text-muted-foreground mt-1">Manage your personal information.</p>
       </div>
 
