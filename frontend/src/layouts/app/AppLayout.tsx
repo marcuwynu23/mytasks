@@ -26,7 +26,7 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-muted sticky top-0 z-10  px-4 sm:px-6 py-4 flex items-center justify-between">
+      <header className="bg-muted shadow-sm sticky top-0 z-10  px-4 sm:px-6 py-4 flex items-center justify-between">
         <div className="flex flex-col">
           <span className="text-lg font-bold tracking-tight leading-none">
             <span className="text-dark">My</span>
@@ -36,7 +36,7 @@ export default function AppLayout() {
         </div>
 
         {/* Desktop nav */}
-        <nav className="hidden sm:flex items-center gap-8">
+        <nav className="hidden sm:flex items-center gap-6">
           {links.map(({ to, label, end }) => (
             <NavLink
               key={to}
@@ -47,7 +47,7 @@ export default function AppLayout() {
               {label}
             </NavLink>
           ))}
-          <Button size="default" onClick={() => setLogoutOpen(true)} className="bg-primary shadow-sm text-white  font-mono">
+          <Button size="default" onClick={() => setLogoutOpen(true)} className="bg-primary text-white  font-mono">
             Logout
           </Button>
         </nav>
