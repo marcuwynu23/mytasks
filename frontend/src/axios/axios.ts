@@ -6,4 +6,14 @@ const instance = axios.create({
   withCredentials: true,
 });
 
+instance.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (!err.response) {
+      err.message = "Network error. Please check your connection.";
+    }
+    return Promise.reject(err);
+  }
+);
+
 export default instance;
