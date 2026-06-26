@@ -25,11 +25,14 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-noise px-4 sm:px-6 py-4 flex items-center justify-between">
-        <span className="text-2xl font-bold tracking-tight">
-          <span className="text-white">My</span>
-          <span className="text-[#55e063]">Tasks</span>
-        </span>
+      <header className="bg-noise px-4 sm:px-6 py-4 flex items-center shadow-md justify-between">
+        <div className="flex flex-col">
+          <span className="text-lg font-bold tracking-tight leading-none">
+            <span className="text-white">My</span>
+            <span className="text-[#55e063]">Tasks</span>
+          </span>
+          <span className="text-xs text-white/60 tracking-wide mt-0.5">Stay organized, stay ahead</span>
+        </div>
 
         {/* Desktop nav */}
         <nav className="hidden sm:flex items-center gap-8">
@@ -43,17 +46,13 @@ export default function AppLayout() {
               {label}
             </NavLink>
           ))}
-          <Button size="default" onClick={() => setOpen(true)} className="bg-accent text-[#09453b] font-bold font-mono">
+          <Button size="default" onClick={() => setOpen(true)} className="bg-accent shadow-sm text-[#09453b] font-bold font-mono">
             Logout
           </Button>
         </nav>
 
         {/* Mobile hamburger */}
-        <button
-          className="sm:hidden text-white p-1"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Toggle menu"
-        >
+        <button className="sm:hidden text-white p-1" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             {menuOpen ? (
               <>
@@ -85,7 +84,14 @@ export default function AppLayout() {
               {label}
             </NavLink>
           ))}
-          <Button size="sm" onClick={() => { setMenuOpen(false); setOpen(true); }} className="bg-accent text-[#09453b] font-bold font-mono w-fit">
+          <Button
+            size="sm"
+            onClick={() => {
+              setMenuOpen(false);
+              setOpen(true);
+            }}
+            className="bg-accent text-[#09453b] font-bold font-mono w-fit"
+          >
             Logout
           </Button>
         </div>
@@ -102,8 +108,12 @@ export default function AppLayout() {
             <DialogDescription>Are you sure you want to log out of Taskly?</DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button onClick={handleLogout} className="bg-primary text-primary-foreground">Logout</Button>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleLogout} className="bg-primary text-primary-foreground">
+              Logout
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
