@@ -75,7 +75,7 @@ export default function TasksPage() {
   }
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-8 space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-wide">Tasks</h1>
@@ -115,9 +115,6 @@ export default function TasksPage() {
       </div>
 
       <Card className="shadow-none rounded-2xl">
-        <CardHeader className="pb-2">
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">All Tasks</p>
-        </CardHeader>
         <CardContent className="pt-0 p-0">
           <div className="overflow-y-auto max-h-[420px] px-6 scrollbar-primary">
             {tasks.length === 0 && <p className="text-sm text-muted-foreground py-3">No tasks yet.</p>}
