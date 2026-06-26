@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { useAuth } from "@/auth/useAuth";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import api from "@/axios/axios";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import api from "@/axios/axios";
+import { useState } from "react";
 
 export default function ProfilePage() {
   const { user, setUser } = useAuth();
@@ -41,12 +41,14 @@ export default function ProfilePage() {
 
   return (
     <div className="p-6 h-full flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Profile</h1>
+      <h1 className="text-2xl font-semibold tracking-wide text-[#26524e]">Profile</h1>
 
-      <Card className="flex-1">
+      <Card className="flex-1 shadow-none">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>User Information</CardTitle>
-          <Button size="sm" onClick={openEdit}>Edit Profile</Button>
+          <Button size="sm" onClick={openEdit}>
+            Edit Profile
+          </Button>
         </CardHeader>
         <CardContent className="space-y-4 text-sm">
           <div className="grid grid-cols-2 gap-x-8 gap-y-3">
@@ -93,7 +95,9 @@ export default function ProfilePage() {
             {error && <p className="text-sm text-destructive">{error}</p>}
           </form>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
             <Button type="submit" form="profile-form" disabled={loading}>
               {loading ? "Saving..." : "Save Changes"}
             </Button>
