@@ -2,7 +2,7 @@ import { useAuth } from "@/auth/useAuth";
 import api from "@/axios/axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { profileSchema, changePasswordSchema } from "@/lib/validations";
+import { changePasswordSchema, profileSchema } from "@/lib/validations";
 import { useState } from "react";
 import { ChangePasswordDialog } from "./ChangePasswordDialog";
 import { EditProfileDialog } from "./EditProfileDialog";
@@ -86,7 +86,7 @@ export default function ProfilePage() {
         <p className="text-muted-foreground mt-1">Manage your personal information.</p>
       </div>
 
-      <Card className="shadow-none rounded-2xl">
+      <Card className="bg-muted shadow-none rounded-2xl">
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-4">
@@ -94,13 +94,19 @@ export default function ProfilePage() {
                 {initials}
               </div>
               <div>
-                <CardTitle className="text-lg">{user?.firstName} {user?.lastName}</CardTitle>
+                <CardTitle className="text-lg">
+                  {user?.firstName} {user?.lastName}
+                </CardTitle>
                 <p className="text-sm text-muted-foreground">{user?.email}</p>
               </div>
             </div>
             <div className="flex gap-2">
-              <Button size="sm" variant="outline" onClick={openChangePassword}>Change Password</Button>
-              <Button size="sm" onClick={openEdit}>Edit Profile</Button>
+              <Button size="sm" variant="outline" onClick={openChangePassword}>
+                Change Password
+              </Button>
+              <Button size="sm" onClick={openEdit}>
+                Edit Profile
+              </Button>
             </div>
           </div>
         </CardHeader>
@@ -114,8 +120,24 @@ export default function ProfilePage() {
         </CardContent>
       </Card>
 
-      <EditProfileDialog open={editOpen} onOpenChange={setEditOpen} form={editForm} onChange={setEditForm} onSubmit={handleEditSubmit} error={editError} loading={editLoading} />
-      <ChangePasswordDialog open={pwOpen} onOpenChange={setPwOpen} form={pwForm} onChange={setPwForm} onSubmit={handlePwSubmit} error={pwError} loading={pwLoading} />
+      <EditProfileDialog
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        form={editForm}
+        onChange={setEditForm}
+        onSubmit={handleEditSubmit}
+        error={editError}
+        loading={editLoading}
+      />
+      <ChangePasswordDialog
+        open={pwOpen}
+        onOpenChange={setPwOpen}
+        form={pwForm}
+        onChange={setPwForm}
+        onSubmit={handlePwSubmit}
+        error={pwError}
+        loading={pwLoading}
+      />
     </div>
   );
 }
