@@ -22,7 +22,9 @@ export default function TasksPage() {
   const [deleteTarget, setDeleteTarget] = useState<Task | null>(null);
 
   const load = () => api.get("/tasks").then(({ data }) => setTasks(data));
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const filtered = tasks.filter((t) => {
     const matchesSearch = t.title.toLowerCase().includes(search.toLowerCase());
@@ -32,8 +34,16 @@ export default function TasksPage() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  function openCreate() { setEditing(null); setForm(EMPTY); setOpen(true); }
-  function openEdit(t: Task) { setEditing(t); setForm({ title: t.title, description: t.description, dueDate: t.dueDate ?? "" }); setOpen(true); }
+  function openCreate() {
+    setEditing(null);
+    setForm(EMPTY);
+    setOpen(true);
+  }
+  function openEdit(t: Task) {
+    setEditing(t);
+    setForm({ title: t.title, description: t.description, dueDate: t.dueDate ?? "" });
+    setOpen(true);
+  }
 
   async function save() {
     const payload = { ...form, dueDate: form.dueDate ? new Date(form.dueDate).toISOString() : null };
@@ -61,16 +71,34 @@ export default function TasksPage() {
     <div className="p-4 sm:p-8 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-wide">Tasks</h1>
+          <h1 className="text-xl sm:text-xl font-bold tracking-wide">Tasks</h1>
           <p className="text-muted-foreground mt-1">Manage and track your tasks.</p>
         </div>
-        <Button size="sm" onClick={openCreate}>New Task</Button>
+        <Button size="sm" onClick={openCreate}>
+          New Task
+        </Button>
       </div>
 
       <div className="flex flex-col sm:flex-row sm:justify-end gap-3">
-        <Input placeholder="Search tasks..." value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} className="sm:max-w-sm bg-white border-border focus-visible:ring-0 focus-visible:border-border" />
-        <Select value={filter} onValueChange={(v) => { setFilter(v as typeof filter); setPage(1); }}>
-          <SelectTrigger className="w-full sm:w-36 bg-white border-border focus-visible:ring-0"><SelectValue /></SelectTrigger>
+        <Input
+          placeholder="Search tasks..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+          className="sm:max-w-sm bg-white border-border focus-visible:ring-0 focus-visible:border-border"
+        />
+        <Select
+          value={filter}
+          onValueChange={(v) => {
+            setFilter(v as typeof filter);
+            setPage(1);
+          }}
+        >
+          <SelectTrigger className="w-full sm:w-36 bg-white border-border focus-visible:ring-0">
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
@@ -91,20 +119,9 @@ export default function TasksPage() {
         onDelete={setDeleteTarget}
       />
 
-      <TaskFormDialog
-        open={open}
-        onOpenChange={setOpen}
-        editing={!!editing}
-        form={form}
-        onChange={setForm}
-        onSave={save}
-      />
+      <TaskFormDialog open={open} onOpenChange={setOpen} editing={!!editing} form={form} onChange={setForm} onSave={save} />
 
-      <TaskDeleteDialog
-        target={deleteTarget}
-        onOpenChange={(v) => !v && setDeleteTarget(null)}
-        onConfirm={confirmDelete}
-      />
+      <TaskDeleteDialog target={deleteTarget} onOpenChange={(v) => !v && setDeleteTarget(null)} onConfirm={confirmDelete} />
     </div>
   );
 }
