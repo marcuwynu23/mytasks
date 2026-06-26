@@ -32,7 +32,9 @@ export default function TasksPage() {
   const [deleteTarget, setDeleteTarget] = useState<Task | null>(null);
 
   const load = () => api.get("/tasks").then(({ data }) => setTasks(data));
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const filtered = tasks.filter((t) => {
     const matchesSearch = t.title.toLowerCase().includes(search.toLowerCase());
@@ -42,8 +44,16 @@ export default function TasksPage() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  function openCreate() { setEditing(null); setForm(EMPTY); setOpen(true); }
-  function openEdit(t: Task) { setEditing(t); setForm({ title: t.title, description: t.description }); setOpen(true); }
+  function openCreate() {
+    setEditing(null);
+    setForm(EMPTY);
+    setOpen(true);
+  }
+  function openEdit(t: Task) {
+    setEditing(t);
+    setForm({ title: t.title, description: t.description });
+    setOpen(true);
+  }
 
   async function save() {
     if (editing) await api.put(`/tasks/${editing._id}`, form);
@@ -71,17 +81,28 @@ export default function TasksPage() {
           <h1 className="text-3xl font-bold tracking-wide">Tasks</h1>
           <p className="text-muted-foreground mt-1">Manage and track your tasks.</p>
         </div>
-        <Button size="sm" onClick={openCreate}>New Task</Button>
+        <Button size="sm" onClick={openCreate}>
+          New Task
+        </Button>
       </div>
 
       <div className="flex justify-end gap-3">
         <Input
           placeholder="Search tasks..."
           value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
           className="max-w-sm"
         />
-        <Select value={filter} onValueChange={(v) => { setFilter(v as typeof filter); setPage(1); }}>
+        <Select
+          value={filter}
+          onValueChange={(v) => {
+            setFilter(v as typeof filter);
+            setPage(1);
+          }}
+        >
           <SelectTrigger className="w-36">
             <SelectValue />
           </SelectTrigger>
@@ -104,7 +125,9 @@ export default function TasksPage() {
             {paginated.map((t) => (
               <div key={t._id} className="flex items-start gap-3 py-3 border-b last:border-0">
                 <Checkbox id={`task-${t._id}`} checked={t.status === "completed"} onCheckedChange={() => toggle(t)} className="mt-0.5" />
-                <Badge variant={t.status === "completed" ? "secondary" : "outline"} className="mt-0.5 shrink-0">{t.status}</Badge>
+                <Badge variant={t.status === "completed" ? "secondary" : "outline"} className="mt-0.5 shrink-0">
+                  {t.status}
+                </Badge>
                 <div className="flex-1 min-w-0">
                   <label
                     htmlFor={`task-${t._id}`}
@@ -115,8 +138,12 @@ export default function TasksPage() {
                   {t.description && <p className="text-sm text-muted-foreground mt-0.5 truncate">{t.description}</p>}
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <Button size="sm" variant="outline" onClick={() => openEdit(t)}>Edit</Button>
-                  <Button size="sm" variant="destructive" onClick={() => setDeleteTarget(t)}>Delete</Button>
+                  <Button size="sm" variant="outline" onClick={() => openEdit(t)}>
+                    Edit
+                  </Button>
+                  <Button size="sm" onClick={() => setDeleteTarget(t)}>
+                    Delete
+                  </Button>
                 </div>
               </div>
             ))}
@@ -157,19 +184,41 @@ export default function TasksPage() {
           <DialogHeader>
             <DialogTitle>{editing ? "Edit Task" : "New Task"}</DialogTitle>
           </DialogHeader>
-          <form id="task-form" onSubmit={(e) => { e.preventDefault(); save(); }} className="space-y-3">
+          <form
+            id="task-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              save();
+            }}
+            className="space-y-3"
+          >
             <div className="space-y-1">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" placeholder="Task title" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required />
+              <Input
+                id="title"
+                placeholder="Task title"
+                value={form.title}
+                onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+                required
+              />
             </div>
             <div className="space-y-1">
               <Label htmlFor="description">Description</Label>
-              <Textarea id="description" placeholder="Optional description" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
+              <Textarea
+                id="description"
+                placeholder="Optional description"
+                value={form.description}
+                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+              />
             </div>
           </form>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button type="submit" form="task-form" disabled={!form.title}>{editing ? "Update" : "Create"}</Button>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" form="task-form" disabled={!form.title}>
+              {editing ? "Update" : "Create"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -183,8 +232,12 @@ export default function TasksPage() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteTarget(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={confirmDelete}>Delete</Button>
+            <Button variant="outline" onClick={() => setDeleteTarget(null)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={confirmDelete}>
+              Delete
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
