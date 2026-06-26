@@ -14,8 +14,9 @@ export default function DashboardPage() {
 
   useEffect(() => {
     api.get("/tasks").then(({ data }) => {
-      const total = data.length;
-      const completed = data.filter((t: any) => t.status === "completed").length;
+      const tasks = data as Array<{ status: string }>;
+      const total = tasks.length;
+      const completed = tasks.filter((t) => t.status === "completed").length;
       setStats({ total, completed, pending: total - completed });
     });
 
