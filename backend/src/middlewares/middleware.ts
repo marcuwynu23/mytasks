@@ -1,5 +1,5 @@
 import cookieParser from "cookie-parser";
-import express, { Application } from "express";
+import express, { type Application } from "express";
 import morgan from "morgan";
 import { useCorsMiddleware } from "./cors.middleware";
 
