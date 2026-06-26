@@ -12,7 +12,7 @@ export function ClockCard() {
   const date = now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 
   return (
-    <Card className="bg-muted shadow-none rounded-2xl flex items-center justify-center px-8 py-6">
+    <Card className="shadow-none rounded-2xl border-0 ring-0 flex items-center justify-center px-8 py-6">
       <div className="text-center">
         <p className="text-4xl font-bold font-mono tracking-tight">{time}</p>
         <p className="text-sm text-muted-foreground mt-1">{date}</p>

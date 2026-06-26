@@ -4,7 +4,7 @@ type Quote = { content: string; author: string };
 
 export function QuoteCard({ quote }: { quote: Quote | null }) {
   return (
-    <Card className="bg-muted shadow-none rounded-2xl flex-1">
+    <Card className="shadow-none rounded-2xl border-0 ring-0 flex-1">
       <CardHeader className="pb-2">
         <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Quote of the Day</CardTitle>
       </CardHeader>
