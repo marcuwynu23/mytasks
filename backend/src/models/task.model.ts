@@ -1,4 +1,4 @@
-import { Schema, model, Document, Types } from "mongoose";
+import { type Document, model, Schema, type Types } from "mongoose";
 
 export type TaskStatus = "pending" | "completed";
 
@@ -16,7 +16,7 @@ const taskSchema = new Schema<ITask>(
     status: { type: String, enum: ["pending", "completed"], default: "pending" },
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Task = model<ITask>("Task", taskSchema);
