@@ -31,13 +31,13 @@ export default function DashboardPage() {
   const date = now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-4 sm:p-8 space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-[#09453b] tracking-wide">Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-wide">Dashboard</h1>
         <p className="text-muted-foreground mt-1">Here's an overview of your tasks.</p>
       </div>
 
-      <div className="flex items-stretch gap-5">
+      <div className="flex flex-col sm:flex-row items-stretch gap-5">
         <Card className="shadow-none rounded-2xl flex-1">
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Quote of the Day</CardTitle>
