@@ -39,37 +39,40 @@ export default function ProfilePage() {
     }
   }
 
-  return (
-    <div className="p-6 h-full flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold tracking-wide text-[#26524e]">Profile</h1>
+  const initials = `${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`.toUpperCase();
 
-      <Card className="flex-1 shadow-none">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>User Information</CardTitle>
-          <Button size="sm" onClick={openEdit}>
-            Edit Profile
-          </Button>
-        </CardHeader>
-        <CardContent className="space-y-4 text-sm">
-          <div className="grid grid-cols-2 gap-x-8 gap-y-3">
-            <div>
-              <p className="text-muted-foreground">First Name</p>
-              <p className="font-medium">{user?.firstName}</p>
-            </div>
-            {user?.middleName && (
-              <div>
-                <p className="text-muted-foreground">Middle Name</p>
-                <p className="font-medium">{user.middleName}</p>
+  return (
+    <div className="p-8 space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-wide">Profile</h1>
+        <p className="text-muted-foreground mt-1">Manage your personal information.</p>
+      </div>
+
+      <Card className="shadow-none rounded-2xl">
+        <CardHeader className="pb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xl font-bold">
+                {initials}
               </div>
-            )}
-            <div>
-              <p className="text-muted-foreground">Last Name</p>
-              <p className="font-medium">{user?.lastName}</p>
+              <div>
+                <CardTitle className="text-lg">
+                  {user?.firstName} {user?.lastName}
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">{user?.email}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-muted-foreground">Email</p>
-              <p className="font-medium">{user?.email}</p>
-            </div>
+            <Button size="sm" onClick={openEdit}>
+              Edit Profile
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <Field label="First Name" value={user?.firstName} />
+            {user?.middleName && <Field label="Middle Name" value={user.middleName} />}
+            <Field label="Last Name" value={user?.lastName} />
+            <Field label="Email" value={user?.email} />
           </div>
         </CardContent>
       </Card>
@@ -104,6 +107,15 @@ export default function ProfilePage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+    </div>
+  );
+}
+
+function Field({ label, value }: { label: string; value?: string }) {
+  return (
+    <div className="space-y-1">
+      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
+      <p className="text-base font-medium">{value ?? "—"}</p>
     </div>
   );
 }
