@@ -1,4 +1,4 @@
-import { FullConfig } from "@playwright/test";
+
 
 const TEST_USER = {
   firstName: "Jane",
