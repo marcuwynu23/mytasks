@@ -1,7 +1,7 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useAuthStore } from "@/store/authStore";
 import api from "@/axios/axios";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/store/authStore";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const links = [
   { to: "/", label: "Dashboard", end: true },
@@ -21,22 +21,26 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b px-6 py-3 flex items-center justify-between">
-        <nav className="flex gap-4">
+      <header className="bg-noise px-6 py-4 flex items-center justify-between">
+        <span className="text-3xl font-bold tracking-tight">
+          <span className="text-[#55e063]">Task</span>
+          <span className="text-white">ly</span>
+        </span>
+        <nav className="flex items-center gap-8">
           {links.map(({ to, label, end }) => (
             <NavLink
               key={to}
               to={to}
               end={end}
-              className={({ isActive }) =>
-                `text-sm font-medium ${isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`
-              }
+              className={({ isActive }) => `text-base font-medium transition-colors ${isActive ? "text-white" : "text-white/60 hover:text-white"}`}
             >
               {label}
             </NavLink>
           ))}
+          <Button size="default" onClick={handleLogout} className="bg-accent text-[#09453b] font-bold font-mono">
+            Logout
+          </Button>
         </nav>
-        <Button size="sm" variant="outline" onClick={handleLogout}>Logout</Button>
       </header>
       <main className="flex-1">
         <Outlet />
