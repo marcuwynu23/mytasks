@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { useState } from "react";
 
 const PASSWORD_RULES = [
@@ -147,11 +148,11 @@ export default function ProfilePage() {
           <form id="pw-form" onSubmit={handlePwSubmit} className="space-y-3">
             <div className="space-y-1">
               <Label htmlFor="currentPassword">Current Password</Label>
-              <Input id="currentPassword" type="password" value={pwForm.currentPassword} onChange={(e) => setPwForm((f) => ({ ...f, currentPassword: e.target.value }))} required autoComplete="current-password" />
+              <PasswordInput id="currentPassword" value={pwForm.currentPassword} onChange={(e) => setPwForm((f) => ({ ...f, currentPassword: e.target.value }))} required autoComplete="current-password" />
             </div>
             <div className="space-y-1">
               <Label htmlFor="newPassword">New Password</Label>
-              <Input id="newPassword" type="password" value={pwForm.newPassword} onChange={(e) => setPwForm((f) => ({ ...f, newPassword: e.target.value }))} required autoComplete="new-password" />
+              <PasswordInput id="newPassword" value={pwForm.newPassword} onChange={(e) => setPwForm((f) => ({ ...f, newPassword: e.target.value }))} required autoComplete="new-password" />
               {pwForm.newPassword && (
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {PASSWORD_RULES.map(({ label, test }) => (
