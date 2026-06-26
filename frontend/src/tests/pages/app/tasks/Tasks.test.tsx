@@ -29,14 +29,14 @@ describe("TaskList", () => {
   it("calls onEdit when Edit clicked", () => {
     const onEdit = vi.fn();
     render(<TaskList {...baseProps} tasks={[task]} filtered={[task]} paginated={[task]} onEdit={onEdit} />);
-    fireEvent.click(screen.getByRole("button", { name: /edit/i }));
+    fireEvent.click(screen.getAllByRole("button", { name: /edit/i })[0]);
     expect(onEdit).toHaveBeenCalledWith(task);
   });
 
   it("calls onDelete when Delete clicked", () => {
     const onDelete = vi.fn();
     render(<TaskList {...baseProps} tasks={[task]} filtered={[task]} paginated={[task]} onDelete={onDelete} />);
-    fireEvent.click(screen.getByRole("button", { name: /delete/i }));
+    fireEvent.click(screen.getAllByRole("button", { name: /delete/i })[0]);
     expect(onDelete).toHaveBeenCalledWith(task);
   });
 
@@ -54,7 +54,7 @@ describe("TaskList", () => {
 });
 
 describe("TaskFormDialog", () => {
-  const form = { title: "", description: "" };
+  const form = { title: "", description: "", dueDate: "" };
 
   it("renders New Task title when not editing", () => {
     render(<TaskFormDialog open editing={false} form={form} onChange={noop} onSave={noop} onOpenChange={noop} />);
@@ -72,7 +72,7 @@ describe("TaskFormDialog", () => {
   });
 
   it("Create button enabled when title filled", () => {
-    render(<TaskFormDialog open editing={false} form={{ title: "hello", description: "" }} onChange={noop} onSave={noop} onOpenChange={noop} />);
+    render(<TaskFormDialog open editing={false} form={{ title: "hello", description: "", dueDate: "" }} onChange={noop} onSave={noop} onOpenChange={noop} />);
     expect(screen.getByRole("button", { name: /create/i })).toBeEnabled();
   });
 });

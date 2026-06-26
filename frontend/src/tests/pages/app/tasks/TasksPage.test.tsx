@@ -83,7 +83,7 @@ describe("TasksPage", () => {
     fireEvent.change(screen.getByRole("textbox", { name: /title/i }), { target: { value: "My New Task" } });
     fireEvent.click(screen.getByRole("button", { name: /create/i }));
     await waitFor(() => {
-      expect(api.post).toHaveBeenCalledWith("/tasks", { title: "My New Task", description: "" });
+      expect(api.post).toHaveBeenCalledWith("/tasks", { title: "My New Task", description: "", dueDate: null });
     });
     expect(api.get).toHaveBeenCalledTimes(2);
   });
