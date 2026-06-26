@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 
@@ -22,6 +23,8 @@ const PAGE_SIZE = 8;
 
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState<"all" | "pending" | "completed">("all");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Task | null>(null);
@@ -31,8 +34,13 @@ export default function TasksPage() {
   const load = () => api.get("/tasks").then(({ data }) => setTasks(data));
   useEffect(() => { load(); }, []);
 
-  const totalPages = Math.max(1, Math.ceil(tasks.length / PAGE_SIZE));
-  const paginated = tasks.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const filtered = tasks.filter((t) => {
+    const matchesSearch = t.title.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter = filter === "all" || t.status === filter;
+    return matchesSearch && matchesFilter;
+  });
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   function openCreate() { setEditing(null); setForm(EMPTY); setOpen(true); }
   function openEdit(t: Task) { setEditing(t); setForm({ title: t.title, description: t.description }); setOpen(true); }
@@ -66,16 +74,37 @@ export default function TasksPage() {
         <Button size="sm" onClick={openCreate}>New Task</Button>
       </div>
 
+      <div className="flex justify-end gap-3">
+        <Input
+          placeholder="Search tasks..."
+          value={search}
+          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+          className="max-w-sm"
+        />
+        <Select value={filter} onValueChange={(v) => { setFilter(v as typeof filter); setPage(1); }}>
+          <SelectTrigger className="w-36">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="completed">Completed</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       <Card className="shadow-none rounded-2xl">
         <CardHeader className="pb-2">
           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">All Tasks</p>
         </CardHeader>
         <CardContent className="pt-0 p-0">
-          <div className="overflow-y-auto max-h-[420px] px-6">
+          <div className="overflow-y-auto max-h-[420px] px-6 scrollbar-primary">
             {tasks.length === 0 && <p className="text-sm text-muted-foreground py-3">No tasks yet.</p>}
+            {tasks.length > 0 && filtered.length === 0 && <p className="text-sm text-muted-foreground py-3">No tasks match your search.</p>}
             {paginated.map((t) => (
               <div key={t._id} className="flex items-start gap-3 py-3 border-b last:border-0">
                 <Checkbox id={`task-${t._id}`} checked={t.status === "completed"} onCheckedChange={() => toggle(t)} className="mt-0.5" />
+                <Badge variant={t.status === "completed" ? "secondary" : "outline"} className="mt-0.5 shrink-0">{t.status}</Badge>
                 <div className="flex-1 min-w-0">
                   <label
                     htmlFor={`task-${t._id}`}
@@ -86,7 +115,6 @@ export default function TasksPage() {
                   {t.description && <p className="text-sm text-muted-foreground mt-0.5 truncate">{t.description}</p>}
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <Badge variant={t.status === "completed" ? "secondary" : "outline"}>{t.status}</Badge>
                   <Button size="sm" variant="outline" onClick={() => openEdit(t)}>Edit</Button>
                   <Button size="sm" variant="destructive" onClick={() => setDeleteTarget(t)}>Delete</Button>
                 </div>
