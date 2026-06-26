@@ -51,7 +51,7 @@ export default function ProfilePage() {
       setUser(data);
       setEditOpen(false);
     } catch (err: any) {
-      setEditError(err?.response?.data?.message ?? "Update failed");
+      setEditError(err?.response?.data?.message ?? err?.message ?? "Update failed");
     } finally {
       setEditLoading(false);
     }
@@ -65,7 +65,7 @@ export default function ProfilePage() {
       await api.put("/auth/password", pwForm);
       setPwOpen(false);
     } catch (err: any) {
-      setPwError(err?.response?.data?.message ?? "Failed to change password");
+      setPwError(err?.response?.data?.message ?? err?.message ?? "Failed to change password");
     } finally {
       setPwLoading(false);
     }
