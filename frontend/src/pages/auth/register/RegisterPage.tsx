@@ -24,8 +24,7 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((f) => ({ ...f, [field]: e.target.value }));
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -45,7 +44,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm shadow-none border-0">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Create account</CardTitle>
           <CardDescription>Fill in your details to register</CardDescription>
@@ -57,7 +56,9 @@ export default function RegisterPage() {
               <Input id="firstName" value={form.firstName} onChange={set("firstName")} required />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="middleName">Middle Name <span className="text-muted-foreground">(optional)</span></Label>
+              <Label htmlFor="middleName">
+                Middle Name <span className="text-muted-foreground">(optional)</span>
+              </Label>
               <Input id="middleName" value={form.middleName} onChange={set("middleName")} />
             </div>
             <div className="flex flex-col gap-1.5">
