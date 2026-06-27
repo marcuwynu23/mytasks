@@ -36,7 +36,7 @@ test.describe("Tasks", () => {
     await page.getByRole("button", { name: /sign in/i }).click();
     await page.waitForURL("/");
     await page.goto("/tasks");
-    await page.waitForSelector("h1");
+    await page.waitForResponse((r) => r.url().includes("/api/tasks") && r.status() === 200);
   });
 
   test("shows empty state when no tasks", async ({ page }) => {
