@@ -17,3 +17,7 @@ test {
   + cd backend && pnpm test
   + cd frontend && pnpm test
 }
+# kill all node process to avoid conflict in running node application
+clean {
+  $ taskkill /F /IM node.exe
+}
