@@ -40,6 +40,11 @@ jobs:
         node-version: 22
         cache: pnpm
         cache-dependency-path: backend/pnpm-lock.yaml
+    - name: Cache MongoDB binaries
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/mongodb-binaries
+        key: mongodb-${{ runner.os }}-${{ hashFiles('backend/pnpm-lock.yaml') }}
     - run: |
         cp .env.example .env 
         pnpm install
