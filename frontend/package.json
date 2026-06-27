@@ -5,7 +5,7 @@
   "packageManager": "pnpm@9.15.0",
   "type": "module",
   "scripts": {
-    "start": "pnpm build && serve -p -s dist",
+    "start": "serve -s dist",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
