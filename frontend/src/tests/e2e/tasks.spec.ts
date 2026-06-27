@@ -39,7 +39,10 @@ test.describe("Tasks", () => {
     await page.waitForResponse((r) => r.url().includes("/api/tasks") && r.status() === 200);
   });
 
-  test("shows empty state when no tasks", async ({ page }) => {
+  test("shows empty state when no tasks", async ({ page, request }) => {
+    await cleanupTasks(request);
+    await page.reload();
+    await page.waitForResponse((r) => r.url().includes("/api/tasks") && r.status() === 200);
     await expect(page.getByText(/no tasks yet/i)).toBeVisible();
   });
 
